@@ -3,12 +3,16 @@
 import QRCode from "qrcode";
 import { useEffect, useId, useMemo, useState } from "react";
 import { BotaoCopiar } from "@/components/BotaoCopiar";
+import { Contador } from "@/components/Contador";
 import { Icone } from "@/components/Icone";
 import { ANO_MAXIMO, ANO_MINIMO, LIMITES, linkDaFicha, normalizarFicha } from "@/lib/ficha";
 import { useDoNavegador } from "@/lib/useNavegador";
+import { BASE_PATH } from "@/lib/caminho";
 import estilos from "./criar.module.css";
 
 const CHAVE_RASCUNHO = "caderno-de-bolso:ficha-rascunho:v1";
+/** Tamanho do campo de culturas: 12 culturas de até 40 letras, com vírgulas. */
+const LIMITE_TEXTO_CULTURAS = LIMITES.culturas * (LIMITES.cultura + 2);
 
 type Formulario = {
   n: string;
@@ -86,7 +90,7 @@ function lerRascunho(cru: string): Formulario {
       const obj = salvo as Record<string, unknown>;
       for (const chave of Object.keys(VAZIO) as (keyof Formulario)[]) {
         const valor = obj[chave];
-        if (typeof valor === "string") recuperado[chave] = valor.slice(0, 400);
+        if (typeof valor === "string") recuperado[chave] = valor.slice(0, LIMITE_TEXTO_CULTURAS);
       }
     }
   } catch {
@@ -156,7 +160,7 @@ function FormularioFicha({ inicial, origem }: { inicial: Formulario; origem: str
     });
   }, [form]);
 
-  const link = ficha && origem ? linkDaFicha(origem, ficha) : "";
+  const link = ficha && origem ? linkDaFicha(origem + BASE_PATH, ficha) : "";
 
   useEffect(() => {
     if (!link) return;
@@ -186,6 +190,13 @@ function FormularioFicha({ inicial, origem }: { inicial: Formulario; origem: str
       Number(anoDigitado) > ANO_MAXIMO);
   const culturas = separarCulturas(form.cu);
   const culturasDemais = culturas.length > LIMITES.culturas;
+  const culturasLongas = culturas.filter((c) => Array.from(c).length > LIMITES.cultura);
+  const errosCulturas = [
+    culturasDemais ? `${idBase}-cu-erro` : "",
+    culturasLongas.length ? `${idBase}-cu-longas` : "",
+  ]
+    .filter(Boolean)
+    .join(" ");
 
   function mudar(campo: keyof Formulario, valor: string) {
     setForm((atual) => ({ ...atual, [campo]: valor }));
@@ -211,10 +222,11 @@ function FormularioFicha({ inicial, origem }: { inicial: Formulario; origem: str
           value={form[campo.nome]}
           maxLength={campo.limite}
           autoComplete={campo.autoComplete ?? "off"}
-          aria-describedby={campo.ajuda ? `${id}-ajuda` : undefined}
+          aria-describedby={[campo.ajuda ? `${id}-ajuda` : "", `${id}-contador`].join(" ").trim()}
           required={campo.nome === "n"}
           onChange={(e) => mudar(campo.nome, e.target.value)}
         />
+        <Contador id={`${id}-contador`} valor={form[campo.nome]} limite={campo.limite} />
       </div>
     );
   }
@@ -241,10 +253,19 @@ function FormularioFicha({ inicial, origem }: { inicial: Formulario; origem: str
               id={`${idBase}-cu`}
               className="entrada"
               rows={3}
+              maxLength={LIMITE_TEXTO_CULTURAS}
               value={form.cu}
-              aria-describedby={`${idBase}-cu-ajuda${culturasDemais ? ` ${idBase}-cu-erro` : ""}`}
+              aria-describedby={`${idBase}-cu-ajuda ${idBase}-cu-contador ${errosCulturas}`.trim()}
+              aria-invalid={errosCulturas ? true : undefined}
               onChange={(e) => mudar("cu", e.target.value)}
             />
+            <Contador id={`${idBase}-cu-contador`} valor={form.cu} limite={LIMITE_TEXTO_CULTURAS} />
+            {culturasLongas.length ? (
+              <p className={estilos.erro} id={`${idBase}-cu-longas`}>
+                Cada cultura cabe em até {LIMITES.cultura} letras. Encurte:{" "}
+                {culturasLongas.join(", ")}.
+              </p>
+            ) : null}
             {culturasDemais ? (
               <p className={estilos.erro} id={`${idBase}-cu-erro`}>
                 A ficha mostra até {LIMITES.culturas} culturas. As outras ficam de fora.

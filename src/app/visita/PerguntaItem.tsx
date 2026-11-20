@@ -1,7 +1,9 @@
 "use client";
 
 import { useId, useState } from "react";
+import { Contador } from "@/components/Contador";
 import { Icone } from "@/components/Icone";
+import { LIMITES_VISITA } from "@/lib/armazenamento";
 import { OPCOES_RESPOSTA, type Item, type RespostaItem, type Resposta } from "@/lib/visita";
 import { Escolha } from "./Escolha";
 import estilos from "./visita.module.css";
@@ -38,9 +40,12 @@ export function PerguntaItem({
             id={`${id}-obs`}
             className="entrada"
             rows={2}
+            maxLength={LIMITES_VISITA.textoLongo}
+            aria-describedby={`${id}-obs-contador`}
             value={obs}
             onChange={(e) => aoMudar({ ...resposta, obs: e.target.value })}
           />
+          <Contador id={`${id}-obs-contador`} valor={obs} limite={LIMITES_VISITA.textoLongo} />
         </div>
       ) : (
         <button

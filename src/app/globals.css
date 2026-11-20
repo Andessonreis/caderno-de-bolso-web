@@ -385,3 +385,11 @@ textarea.entrada {
     text-decoration: none;
   }
 }
+
+.contador {
+  margin: 0;
+  min-height: 0;
+  color: var(--tinta-suave);
+  font-size: var(--texto-pequeno);
+  text-align: right;
+}

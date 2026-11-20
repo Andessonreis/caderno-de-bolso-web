@@ -2,7 +2,13 @@
 
 import { useEffect, useId, useRef, useState } from "react";
 import { Icone } from "@/components/Icone";
-import { nomeDoArquivo, salvarVisita, visitaParaArquivo } from "@/lib/armazenamento";
+import { Contador } from "@/components/Contador";
+import {
+  LIMITES_VISITA,
+  nomeDoArquivo,
+  salvarVisita,
+  visitaParaArquivo,
+} from "@/lib/armazenamento";
 import {
   CULTURAS_SENSIVEIS,
   ETAPAS,
@@ -227,9 +233,15 @@ export function EditorVisita({ inicial, aoSair }: { inicial: Visita; aoSair: () 
                     id={`${id}-separacao`}
                     className="entrada"
                     rows={3}
-                    aria-describedby={`${id}-separacao-ajuda`}
+                    maxLength={LIMITES_VISITA.textoLongo}
+                    aria-describedby={`${id}-separacao-ajuda ${id}-separacao-contador`}
                     value={visita.separacao}
                     onChange={(e) => atualizar((v) => ({ ...v, separacao: e.target.value }))}
+                  />
+                  <Contador
+                    id={`${id}-separacao-contador`}
+                    valor={visita.separacao}
+                    limite={LIMITES_VISITA.textoLongo}
                   />
                 </div>
               ) : null}
@@ -316,12 +328,18 @@ function Identificacao({ visita, atualizar }: { visita: Visita; atualizar: Atual
           id={`${id}-nome`}
           className="entrada"
           type="text"
-          maxLength={80}
+          maxLength={LIMITES_VISITA.nome}
           autoComplete="off"
+          aria-describedby={`${id}-nome-contador`}
           value={visita.produtor.nome}
           onChange={(e) =>
             atualizar((v) => ({ ...v, produtor: { ...v.produtor, nome: e.target.value } }))
           }
+        />
+        <Contador
+          id={`${id}-nome-contador`}
+          valor={visita.produtor.nome}
+          limite={LIMITES_VISITA.nome}
         />
       </div>
       <div className="campo">
@@ -330,12 +348,18 @@ function Identificacao({ visita, atualizar }: { visita: Visita; atualizar: Atual
           id={`${id}-municipio`}
           className="entrada"
           type="text"
-          maxLength={60}
+          maxLength={LIMITES_VISITA.municipio}
           autoComplete="off"
+          aria-describedby={`${id}-municipio-contador`}
           value={visita.produtor.municipio}
           onChange={(e) =>
             atualizar((v) => ({ ...v, produtor: { ...v.produtor, municipio: e.target.value } }))
           }
+        />
+        <Contador
+          id={`${id}-municipio-contador`}
+          valor={visita.produtor.municipio}
+          limite={LIMITES_VISITA.municipio}
         />
       </div>
       {visita.produtor.culturas.length ? (
@@ -360,11 +384,16 @@ function Identificacao({ visita, atualizar }: { visita: Visita; atualizar: Atual
           id={`${id}-visitantes`}
           className="entrada"
           type="text"
-          maxLength={120}
+          maxLength={LIMITES_VISITA.visitantes}
           autoComplete="off"
-          aria-describedby={`${id}-visitantes-ajuda`}
+          aria-describedby={`${id}-visitantes-ajuda ${id}-visitantes-contador`}
           value={visita.visitantes}
           onChange={(e) => atualizar((v) => ({ ...v, visitantes: e.target.value }))}
+        />
+        <Contador
+          id={`${id}-visitantes-contador`}
+          valor={visita.visitantes}
+          limite={LIMITES_VISITA.visitantes}
         />
       </div>
       <Escolha
@@ -414,8 +443,15 @@ function Fechamento({ visita, atualizar }: { visita: Visita; atualizar: Atualiza
                     id={`${id}-nc-${nc.id}`}
                     className="entrada"
                     rows={2}
+                    maxLength={LIMITES_VISITA.textoLongo}
+                    aria-describedby={`${id}-nc-${nc.id}-contador`}
                     value={nc.descricao}
                     onChange={(e) => mudarNc(nc.id, "descricao", e.target.value)}
+                  />
+                  <Contador
+                    id={`${id}-nc-${nc.id}-contador`}
+                    valor={nc.descricao}
+                    limite={LIMITES_VISITA.textoLongo}
                   />
                 </div>
                 <div className="campo">
@@ -469,9 +505,15 @@ function Fechamento({ visita, atualizar }: { visita: Visita; atualizar: Atualiza
           id={`${id}-fortes`}
           className="entrada"
           rows={3}
-          aria-describedby={`${id}-fortes-ajuda`}
+          maxLength={LIMITES_VISITA.textoLongo}
+          aria-describedby={`${id}-fortes-ajuda ${id}-fortes-contador`}
           value={visita.pontosFortes}
           onChange={(e) => atualizar((v) => ({ ...v, pontosFortes: e.target.value }))}
+        />
+        <Contador
+          id={`${id}-fortes-contador`}
+          valor={visita.pontosFortes}
+          limite={LIMITES_VISITA.textoLongo}
         />
       </div>
 
@@ -481,8 +523,15 @@ function Fechamento({ visita, atualizar }: { visita: Visita; atualizar: Atualiza
           id={`${id}-obs`}
           className="entrada"
           rows={3}
+          maxLength={LIMITES_VISITA.textoLongo}
+          aria-describedby={`${id}-obs-contador`}
           value={visita.observacoes}
           onChange={(e) => atualizar((v) => ({ ...v, observacoes: e.target.value }))}
+        />
+        <Contador
+          id={`${id}-obs-contador`}
+          valor={visita.observacoes}
+          limite={LIMITES_VISITA.textoLongo}
         />
       </div>
 
