@@ -1,0 +1,239 @@
+.abertura {
+  padding-block: var(--e-6) var(--e-7);
+  border-bottom: 1px solid var(--linha);
+  /* Pauta de caderno, bem discreta. */
+  background-image: repeating-linear-gradient(
+    to bottom,
+    transparent 0,
+    transparent 2.15rem,
+    rgba(185, 166, 132, 0.28) 2.15rem,
+    rgba(185, 166, 132, 0.28) calc(2.15rem + 1px)
+  );
+}
+
+.aberturaGrade {
+  display: grid;
+  gap: var(--e-7);
+  align-items: center;
+}
+
+.titulo {
+  max-width: 16ch;
+  margin-top: var(--e-2);
+}
+
+.chamada {
+  font-size: var(--texto-grande);
+  max-width: 34rem;
+  margin-bottom: var(--e-5);
+}
+
+/* Cartão de banca pendurado: mostra o produto sem foto genérica. */
+.etiquetaBanca {
+  position: relative;
+  justify-self: center;
+  width: min(100%, 17rem);
+  margin: 0;
+  padding: var(--e-6) var(--e-5) var(--e-5);
+  background: var(--papel-cartao);
+  border: 1px solid var(--linha-forte);
+  border-radius: 6px 6px 18px 18px;
+  box-shadow: var(--sombra-papel);
+  text-align: center;
+  transform: rotate(-2.5deg);
+}
+
+.furo {
+  position: absolute;
+  top: 0.75rem;
+  left: 50%;
+  width: 0.875rem;
+  height: 0.875rem;
+  margin-left: -0.4375rem;
+  border-radius: 50%;
+  background: var(--papel);
+  border: 2px solid var(--linha-forte);
+}
+
+.etiquetaNome {
+  font-family: var(--fonte-titulo);
+  font-weight: 800;
+  font-size: 1.75rem;
+  line-height: 1.1;
+  margin: var(--e-2) 0 0;
+}
+
+.etiquetaLugar {
+  color: var(--tinta-suave);
+  margin: 0 0 var(--e-4);
+}
+
+.carimbo {
+  display: inline-block;
+  margin: 0 0 var(--e-4);
+  padding: var(--e-2) var(--e-3);
+  border: 2px solid var(--folha);
+  outline: 1px solid var(--folha);
+  outline-offset: 3px;
+  border-radius: 6px;
+  color: var(--folha);
+  font-weight: 700;
+  font-size: var(--texto-pequeno);
+  line-height: 1.3;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  transform: rotate(-3deg);
+}
+
+.etiquetaQr {
+  display: grid;
+  place-items: center;
+  width: 6rem;
+  height: 6rem;
+  margin: 0 auto var(--e-3);
+  border: 1px solid var(--linha);
+  border-radius: 8px;
+  color: var(--tinta);
+}
+
+.etiquetaLegenda {
+  font-size: var(--texto-pequeno);
+  color: var(--tinta-suave);
+}
+
+.secao {
+  padding-block: var(--e-7);
+}
+
+.blocos {
+  display: grid;
+  gap: var(--e-5);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.bloco {
+  padding-top: var(--e-4);
+  border-top: 3px solid var(--tinta);
+}
+
+.bloco p {
+  margin: 0;
+  color: var(--tinta-suave);
+}
+
+.blocoIcone {
+  display: inline-grid;
+  place-items: center;
+  width: 3rem;
+  height: 3rem;
+  margin-bottom: var(--e-3);
+  border-radius: 50%;
+  background: var(--folha-clara);
+  color: var(--folha-escura);
+}
+
+.faixa {
+  background: var(--papel-fundo);
+  border-block: 1px solid var(--linha);
+}
+
+.passos {
+  counter-reset: passo;
+  display: grid;
+  gap: var(--e-5);
+  margin: var(--e-5) 0 var(--e-6);
+  padding: 0;
+  list-style: none;
+}
+
+.passo {
+  counter-increment: passo;
+  position: relative;
+  padding-left: 3.75rem;
+}
+
+.passo::before {
+  content: counter(passo);
+  position: absolute;
+  left: 0;
+  top: -0.15rem;
+  display: grid;
+  place-items: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  border-radius: 50%;
+  background: var(--barro);
+  color: #fff;
+  font-family: var(--fonte-titulo);
+  font-weight: 800;
+  font-size: 1.375rem;
+}
+
+.passo p {
+  margin: 0;
+  color: var(--tinta-suave);
+}
+
+.publico {
+  display: grid;
+  gap: var(--e-5);
+  margin: var(--e-5) 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.publicoItem {
+  display: flex;
+  gap: var(--e-4);
+  align-items: flex-start;
+}
+
+.publicoItem p {
+  margin: 0;
+  color: var(--tinta-suave);
+}
+
+.publicoIcone {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 3rem;
+  height: 3rem;
+  border-radius: var(--raio);
+  border: 2px solid var(--linha-forte);
+  color: var(--barro);
+}
+
+.app {
+  display: grid;
+  gap: var(--e-3);
+}
+
+.appTitulo {
+  font-size: var(--titulo-3);
+}
+
+.avisoTitulo {
+  font-size: var(--titulo-3);
+  margin-bottom: var(--e-2);
+}
+
+@media (min-width: 48rem) {
+  .aberturaGrade {
+    grid-template-columns: 1.4fr 1fr;
+  }
+  .blocos,
+  .passos {
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--e-6);
+  }
+  .publico {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  .app {
+    grid-template-columns: auto 1fr;
+    gap: var(--e-5);
+  }
+}
