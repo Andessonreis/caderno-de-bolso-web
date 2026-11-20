@@ -1,0 +1,190 @@
+.pagina {
+  max-width: 38rem;
+  padding-block: var(--e-5) var(--e-7);
+}
+
+.carregando {
+  padding-block: var(--e-7);
+  color: var(--tinta-suave);
+  text-align: center;
+}
+
+.faixaExemplo {
+  margin: 0 0 var(--e-4);
+  padding: var(--e-2) var(--e-3);
+  border: 1px dashed var(--linha-forte);
+  border-radius: var(--raio);
+  color: var(--tinta-suave);
+  text-align: center;
+}
+
+.topo {
+  margin-bottom: var(--e-4);
+}
+
+.nome {
+  margin: var(--e-1) 0 var(--e-2);
+  font-size: clamp(2.125rem, 1.6rem + 2.4vw, 3rem);
+  overflow-wrap: anywhere;
+}
+
+.lugar {
+  display: flex;
+  align-items: center;
+  gap: var(--e-2);
+  margin: 0;
+  font-size: var(--texto-grande);
+  color: var(--tinta-suave);
+}
+
+.lugar svg {
+  flex: none;
+  color: var(--barro);
+}
+
+/* Selo textual, com jeito de carimbo. */
+.selo {
+  display: flex;
+  gap: var(--e-3);
+  align-items: center;
+  margin: var(--e-5) 0;
+  padding: var(--e-4);
+  border: 2px solid var(--folha);
+  outline: 1px solid var(--folha);
+  outline-offset: 4px;
+  border-radius: var(--raio);
+  background: var(--folha-clara);
+  color: var(--folha-escura);
+}
+
+.selo svg {
+  flex: none;
+}
+
+.seloTexto {
+  margin: 0;
+  font-weight: 700;
+  font-size: var(--texto-grande);
+  line-height: 1.25;
+}
+
+.seloDesde {
+  margin: var(--e-1) 0 0;
+}
+
+.linhaSimples {
+  margin: 0 0 var(--e-3);
+  font-size: var(--texto-grande);
+}
+
+.rotuloLinha {
+  color: var(--tinta-suave);
+}
+
+.bloco {
+  margin-top: var(--e-6);
+}
+
+.blocoTitulo {
+  font-size: var(--titulo-3);
+  margin-bottom: var(--e-3);
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--e-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.chips li {
+  padding: 0.375rem 0.875rem;
+  border: 1px solid var(--linha-forte);
+  border-radius: 999px;
+  background: var(--papel-cartao);
+  font-weight: 700;
+}
+
+.caderno {
+  display: flex;
+  gap: var(--e-3);
+  align-items: flex-start;
+  margin: var(--e-5) 0 0;
+  padding: var(--e-3) var(--e-4);
+  border-radius: var(--raio);
+  background: var(--papel-fundo);
+}
+
+.caderno svg {
+  flex: none;
+  margin-top: 0.1rem;
+  color: var(--folha);
+}
+
+.dados {
+  display: grid;
+  gap: var(--e-3);
+  margin: 0;
+}
+
+.dado {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  gap: var(--e-1) var(--e-3);
+  padding-bottom: var(--e-3);
+  border-bottom: 1px solid var(--linha);
+}
+
+.dado dt {
+  grid-column: 1 / -1;
+  color: var(--tinta-suave);
+}
+
+.dado dd {
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+
+.dado dd:only-of-type {
+  grid-column: 1 / -1;
+}
+
+.codigo {
+  font-weight: 700;
+  font-size: var(--texto-grande);
+  letter-spacing: 0.02em;
+}
+
+.honestidade {
+  margin-top: var(--e-6);
+}
+
+.acoes {
+  margin-top: var(--e-6);
+}
+
+.estado {
+  padding-block: var(--e-6);
+}
+
+.estado p {
+  font-size: var(--texto-grande);
+}
+
+.estadoIcone {
+  display: inline-grid;
+  place-items: center;
+  width: 4rem;
+  height: 4rem;
+  margin-bottom: var(--e-4);
+  border-radius: 50%;
+  background: var(--barro-claro);
+  color: var(--barro);
+}
+
+.estadoTitulo {
+  font-size: var(--titulo-2);
+}
