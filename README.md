@@ -25,7 +25,7 @@ pontos:
 - **Provar a cada venda que é orgânico.** Na feira, o produtor mostra foto no celular ou convida o
   comprador para conhecer a roça. Não há um jeito rápido de o comprador conferir sozinho.
 - **A visita de pares é longa.** Três vezes por ano, agricultores do grupo visitam a roça uns dos
-  outros, conferem o caderno de campo e preenchem um roteiro em papel. Um produtor disse que a
+  outros, conferem o caderno de campo e seguem o roteiro de visita da OPAC. Um produtor disse que a
   visita toma o dia inteiro. Encurtar esse tempo é uma hipótese a testar.
 - **Estar pronto para a visita.** O caderno de papel continua sendo o registro oficial, e os
   produtores querem estar sempre em dia para a visita e para auditorias surpresa.
