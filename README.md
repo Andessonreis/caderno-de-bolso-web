@@ -58,6 +58,76 @@ apoio baseado no Roteiro de Visita da OPAC e cobre só parte dele (documentos, s
 colheita e controle). Não substitui o formulário oficial, e o uso em visitas reais depende de acordo
 com o grupo e a OPAC.
 
+<!-- telas:inicio -->
+
+## Telas
+
+As 18 telas do site no celular, na ordem de uso. Toque numa imagem para ampliar. O índice com como chegar em cada tela e o que ela faz está em [docs/telas](docs/telas/README.md).
+
+### Página inicial
+
+<table>
+  <tr>
+    <td align="center" valign="top"><a href="docs/telas/01-inicio.png"><img src="docs/telas/01-inicio.png" alt="Página inicial" width="170"></a><br><sub><b>01</b> · Página inicial</sub></td>
+  </tr>
+</table>
+
+### Ficha do produtor
+
+O que o comprador vê ao ler o QR da banca.
+
+<table>
+  <tr>
+    <td align="center" valign="top"><a href="docs/telas/02-ficha.png"><img src="docs/telas/02-ficha.png" alt="Ficha válida" width="170"></a><br><sub><b>02</b> · Ficha válida</sub></td>
+    <td align="center" valign="top"><a href="docs/telas/03-ficha-sem-codigo.png"><img src="docs/telas/03-ficha-sem-codigo.png" alt="Ficha sem código" width="170"></a><br><sub><b>03</b> · Ficha sem código</sub></td>
+    <td align="center" valign="top"><a href="docs/telas/04-ficha-codigo-ilegivel.png"><img src="docs/telas/04-ficha-codigo-ilegivel.png" alt="Código que não dá para ler" width="170"></a><br><sub><b>04</b> · Código que não dá para ler</sub></td>
+  </tr>
+</table>
+
+### Fazer uma ficha
+
+Para o produtor ou a cooperativa montar a ficha sem o aplicativo.
+
+<table>
+  <tr>
+    <td align="center" valign="top"><a href="docs/telas/05-criar-ficha-vazio.png"><img src="docs/telas/05-criar-ficha-vazio.png" alt="Formulário vazio" width="170"></a><br><sub><b>05</b> · Formulário vazio</sub></td>
+    <td align="center" valign="top"><a href="docs/telas/06-criar-ficha-preenchido.png"><img src="docs/telas/06-criar-ficha-preenchido.png" alt="Formulário preenchido" width="170"></a><br><sub><b>06</b> · Formulário preenchido</sub></td>
+    <td align="center" valign="top"><a href="docs/telas/07-criar-ficha-cartao-para-a-banca.png"><img src="docs/telas/07-criar-ficha-cartao-para-a-banca.png" alt="Cartão para a banca" width="170"></a><br><sub><b>07</b> · Cartão para a banca</sub></td>
+  </tr>
+</table>
+
+### Roteiro de apoio à visita
+
+Para quem faz a visita de pares. Funciona sem internet depois de aberto uma vez.
+
+<table>
+  <tr>
+    <td align="center" valign="top"><a href="docs/telas/08-visita-lista-vazia.png"><img src="docs/telas/08-visita-lista-vazia.png" alt="Lista de visitas vazia" width="170"></a><br><sub><b>08</b> · Lista de visitas vazia</sub></td>
+    <td align="center" valign="top"><a href="docs/telas/09-visita-lista.png"><img src="docs/telas/09-visita-lista.png" alt="Lista de visitas" width="170"></a><br><sub><b>09</b> · Lista de visitas</sub></td>
+    <td align="center" valign="top"><a href="docs/telas/10-visita-etapa-1-quem-e-quando.png"><img src="docs/telas/10-visita-etapa-1-quem-e-quando.png" alt="Etapa 1: Quem e quando" width="170"></a><br><sub><b>10</b> · Etapa 1: Quem e quando</sub></td>
+    <td align="center" valign="top"><a href="docs/telas/11-visita-etapa-2-documentos.png"><img src="docs/telas/11-visita-etapa-2-documentos.png" alt="Etapa 2: Documentos" width="170"></a><br><sub><b>11</b> · Etapa 2: Documentos</sub></td>
+  </tr>
+  <tr>
+    <td align="center" valign="top"><a href="docs/telas/12-visita-etapa-3-sementes-e-mudas.png"><img src="docs/telas/12-visita-etapa-3-sementes-e-mudas.png" alt="Etapa 3: Sementes e mudas" width="170"></a><br><sub><b>12</b> · Etapa 3: Sementes e mudas</sub></td>
+    <td align="center" valign="top"><a href="docs/telas/13-visita-etapa-4-insumos-e-manejo.png"><img src="docs/telas/13-visita-etapa-4-insumos-e-manejo.png" alt="Etapa 4: Insumos e manejo" width="170"></a><br><sub><b>13</b> · Etapa 4: Insumos e manejo</sub></td>
+    <td align="center" valign="top"><a href="docs/telas/14-visita-etapa-5-colheita-e-armazenamento.png"><img src="docs/telas/14-visita-etapa-5-colheita-e-armazenamento.png" alt="Etapa 5: Colheita, armazenamento e transporte" width="170"></a><br><sub><b>14</b> · Etapa 5: Colheita, armazenamento e transporte</sub></td>
+    <td align="center" valign="top"><a href="docs/telas/15-visita-etapa-6-controle.png"><img src="docs/telas/15-visita-etapa-6-controle.png" alt="Etapa 6: Controle" width="170"></a><br><sub><b>15</b> · Etapa 6: Controle</sub></td>
+  </tr>
+  <tr>
+    <td align="center" valign="top"><a href="docs/telas/16-visita-etapa-7-fechamento.png"><img src="docs/telas/16-visita-etapa-7-fechamento.png" alt="Etapa 7: Fechamento" width="170"></a><br><sub><b>16</b> · Etapa 7: Fechamento</sub></td>
+    <td align="center" valign="top"><a href="docs/telas/17-visita-resumo.png"><img src="docs/telas/17-visita-resumo.png" alt="Resumo" width="170"></a><br><sub><b>17</b> · Resumo</sub></td>
+  </tr>
+</table>
+
+### Outras
+
+<table>
+  <tr>
+    <td align="center" valign="top"><a href="docs/telas/18-pagina-nao-encontrada.png"><img src="docs/telas/18-pagina-nao-encontrada.png" alt="Página não encontrada" width="170"></a><br><sub><b>18</b> · Página não encontrada</sub></td>
+  </tr>
+</table>
+<!-- telas:fim -->
+
 ## Decisões de engenharia
 
 **Os dados vão no link, não num servidor.** A ficha viaja inteira no endereço
