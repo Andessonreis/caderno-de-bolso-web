@@ -6,12 +6,16 @@ import estilos from "./inicio.module.css";
 const LINK_EXEMPLO = `/ficha/#d=${encodeFicha(FICHA_EXEMPLO)}`;
 const REPOSITORIO_APP = process.env.NEXT_PUBLIC_MOBILE_REPO_URL?.trim();
 
-const BLOCOS: ReadonlyArray<{ icone: NomeIcone; titulo: string; texto: string }> = [
+const BLOCOS: ReadonlyArray<{
+  icone: NomeIcone;
+  titulo: string;
+  texto: string;
+}> = [
   {
     icone: "semInternet",
     titulo: "Anote na roça, sem internet",
     texto:
-      "No aplicativo de celular você anota o plantio, a calda, a colheita e a venda na hora em que faz. Funciona sem sinal. À noite, o caderno de papel fica mais fácil de preencher.",
+      "No aplicativo de celular você anota o plantio, a calda, a colheita e a venda na hora em que faz. Funciona sem sinal. Depois, passar para o caderno de papel fica mais fácil.",
   },
   {
     icone: "prancheta",
@@ -35,15 +39,21 @@ const PASSOS: ReadonlyArray<{ titulo: string; texto: string }> = [
   },
   {
     titulo: "Gere a ficha e o QR",
-    texto: "Pelo aplicativo ou nesta página, preencha seus dados e imprima o cartão para a banca.",
+    texto:
+      "Pelo aplicativo ou nesta página, preencha seus dados e imprima o cartão para a banca.",
   },
   {
     titulo: "O comprador confere",
-    texto: "Ele aponta a câmera do celular para o QR e vê sua ficha na hora, sem baixar nada.",
+    texto:
+      "Ele aponta a câmera do celular para o QR e vê sua ficha na hora, sem baixar nada.",
   },
 ];
 
-const PUBLICO: ReadonlyArray<{ icone: NomeIcone; titulo: string; texto: string }> = [
+const PUBLICO: ReadonlyArray<{
+  icone: NomeIcone;
+  titulo: string;
+  texto: string;
+}> = [
   {
     icone: "folha",
     titulo: "Agricultor e agricultora",
@@ -59,7 +69,8 @@ const PUBLICO: ReadonlyArray<{ icone: NomeIcone; titulo: string; texto: string }
   {
     icone: "qr",
     titulo: "Quem compra na feira",
-    texto: "Para saber de quem está comprando e como conferir, em poucos segundos.",
+    texto:
+      "Para saber de quem está comprando e como conferir, em poucos segundos.",
   },
 ];
 
@@ -74,9 +85,10 @@ export default function Inicio() {
               O caderno continua no bolso. O trabalho fica mais leve.
             </h1>
             <p className={estilos.chamada}>
-              O Caderno de Bolso ajuda o agricultor agroecológico a anotar na roça, preparar a
-              visita de pares e mostrar ao comprador de onde vem o que vende. Ele não substitui o
-              caderno de papel: anda junto com ele.
+              O Caderno de Bolso ajuda o agricultor agroecológico a anotar na
+              roça, preparar a visita de pares e mostrar ao comprador de onde
+              vem o que vende. Ele não substitui o caderno de papel: anda junto
+              com ele.
             </p>
             <div className="grupo-botoes">
               <Link className="botao botao-primario" href={LINK_EXEMPLO}>
@@ -90,7 +102,10 @@ export default function Inicio() {
             </div>
           </div>
 
-          <figure className={estilos.etiquetaBanca} aria-label="Exemplo de cartão de banca">
+          <figure
+            className={estilos.etiquetaBanca}
+            aria-label="Exemplo de cartão de banca"
+          >
             <div className={estilos.furo} aria-hidden="true" />
             <p className={estilos.etiquetaNome}>Zé Carlos</p>
             <p className={estilos.etiquetaLugar}>Canarana-BA</p>
@@ -109,7 +124,10 @@ export default function Inicio() {
         </div>
       </section>
 
-      <section className={`conteiner ${estilos.secao}`} aria-labelledby="titulo-blocos">
+      <section
+        className={`conteiner ${estilos.secao}`}
+        aria-labelledby="titulo-blocos"
+      >
         <h2 id="titulo-blocos" className="sr-only">
           O que o Caderno de Bolso faz
         </h2>
@@ -146,7 +164,10 @@ export default function Inicio() {
         </div>
       </section>
 
-      <section className={`conteiner ${estilos.secao}`} aria-labelledby="titulo-publico">
+      <section
+        className={`conteiner ${estilos.secao}`}
+        aria-labelledby="titulo-publico"
+      >
         <h2 id="titulo-publico">Para quem é</h2>
         <ul className={estilos.publico}>
           {PUBLICO.map((item) => (
@@ -163,7 +184,10 @@ export default function Inicio() {
         </ul>
       </section>
 
-      <section className={`conteiner ${estilos.secao}`} aria-labelledby="titulo-app">
+      <section
+        className={`conteiner ${estilos.secao}`}
+        aria-labelledby="titulo-app"
+      >
         <div className={`cartao ${estilos.app}`}>
           <span className={estilos.blocoIcone}>
             <Icone nome="celular" tamanho={28} />
@@ -173,8 +197,9 @@ export default function Inicio() {
               Existe também o aplicativo para celular
             </h2>
             <p>
-              É nele que o agricultor anota na roça, mesmo sem internet, e gera o QR da sua ficha.
-              Este site é o outro lado: a ficha que o comprador abre e o roteiro da visita de pares.
+              É nele que o agricultor anota na roça, mesmo sem internet, e gera
+              o QR da sua ficha. Este site é o outro lado: a ficha que o
+              comprador abre e o roteiro da visita de pares.
             </p>
             {REPOSITORIO_APP ? (
               <a className="botao botao-secundario" href={REPOSITORIO_APP}>
@@ -186,18 +211,22 @@ export default function Inicio() {
         </div>
       </section>
 
-      <section className={`conteiner ${estilos.secao}`} aria-labelledby="titulo-aviso">
+      <section
+        className={`conteiner ${estilos.secao}`}
+        aria-labelledby="titulo-aviso"
+      >
         <div className="aviso">
           <h2 id="titulo-aviso" className={estilos.avisoTitulo}>
             Um projeto acadêmico
           </h2>
           <p>
-            O Caderno de Bolso é um protótipo feito por estudantes, em conversa com agricultores do
-            Território de Irecê. Não é ferramenta oficial de certificadora nem de órgão público.
+            O Caderno de Bolso é um protótipo feito por estudantes, em conversa
+            com agricultores do Território de Irecê. Não é ferramenta oficial de
+            certificadora nem de órgão público.
           </p>
           <p>
-            Não há cadastro, senha nem servidor guardando seus dados. O que você escreve fica só no
-            aparelho que está usando.
+            Não há cadastro, senha nem servidor guardando seus dados. O que você
+            escreve fica só no aparelho que está usando.
           </p>
         </div>
       </section>

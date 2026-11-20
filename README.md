@@ -1,6 +1,6 @@
 # Caderno de Bolso
 
-**O comprador confere sozinho de onde vem o alimento, e a visita de pares cabe no celular.**
+**O comprador confere sozinho de onde vem o alimento, e a visita de pares ganha um roteiro de apoio no celular.**
 
 Site do Caderno de Bolso, um complemento digital do caderno de campo para agricultores familiares
 agroecológicos com certificação participativa (SPG) no Território de Irecê, Bahia. Ele atende duas
@@ -19,14 +19,16 @@ pessoas: quem compra na feira e quem faz a visita de pares.
 
 ## O problema
 
-Nas entrevistas com agricultores certificados pelo sistema participativo, três dores se repetiram:
+Das entrevistas com agricultores certificados pelo sistema participativo, o site parte de três
+pontos:
 
 - **Provar a cada venda que é orgânico.** Na feira, o produtor mostra foto no celular ou convida o
   comprador para conhecer a roça. Não há um jeito rápido de o comprador conferir sozinho.
-- **A visita de pares toma o dia inteiro.** Três vezes por ano, agricultores do grupo visitam a roça
-  uns dos outros, conferem o caderno de campo e preenchem um roteiro longo em papel.
-- **Estar pronto para a visita.** O caderno de papel continua sendo o registro oficial do
-  agricultor, mas anotar tudo à noite, de memória, é onde as coisas se perdem.
+- **A visita de pares é longa.** Três vezes por ano, agricultores do grupo visitam a roça uns dos
+  outros, conferem o caderno de campo e preenchem um roteiro em papel. Um produtor disse que a
+  visita toma o dia inteiro. Encurtar esse tempo é uma hipótese a testar.
+- **Estar pronto para a visita.** O caderno de papel continua sendo o registro oficial, e os
+  produtores querem estar sempre em dia para a visita e para auditorias surpresa.
 
 O Caderno de Bolso não substitui o caderno de papel: anda junto com ele. O aplicativo cuida da
 anotação na roça. Este site cuida das outras duas pontas.
@@ -50,7 +52,10 @@ As perguntas se ajustam ao que é visto: a comprovação de origem só aparece p
 milho e soja, e a separação do produto só é pedida quando o armazém é compartilhado. Tudo é salvo
 no aparelho a cada toque. No fim, um resumo mostra o que ficou sem resposta, e a visita sai numa
 folha limpa para imprimir ou salvar em PDF, com espaço para assinaturas. Um arquivo leva a visita
-de um aparelho para outro. Depois de aberto uma vez, o roteiro funciona sem internet.
+de um aparelho para outro. Depois de aberto uma vez, o roteiro funciona sem internet. O roteiro é um
+apoio baseado no Roteiro de Visita da OPAC e cobre só parte dele (documentos, sementes, insumos,
+colheita e controle). Não substitui o formulário oficial, e o uso em visitas reais depende de acordo
+com o grupo e a OPAC.
 
 ## Decisões de engenharia
 
@@ -141,6 +146,10 @@ public/
 scripts/versao-sw.mjs      versão do service worker gerada no build
 docs/                      fluxos das telas e capturas
 ```
+
+## Situação
+
+Protótipo da Fase 2 do Projeto I.D.E.I.A. (Empreendedorismo, IFBA Irecê). Ainda não foi testado com produtores. As hipóteses a validar no teste rápido são: anotar no app é mais rápido que no papel solto; o resumo reduz o tempo de passar a limpo; o comprador usa o QR para conferir a origem; o roteiro de apoio encurta a visita de pares.
 
 ## Como rodar
 

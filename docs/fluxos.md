@@ -372,10 +372,10 @@ visitas.
 
 ## Página → dor ou ganho que atende
 
-| Página                    | Dor ou ganho que atende                                                                                                                                                                                   |
-| ------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Ficha do produtor         | **Provar a cada venda que é orgânico:** o QR na banca responde pelo produtor, sem foto nem convite para a roça. **Comprador conferir sozinho:** os números para conferir e como fazer isso estão na tela. |
-| Fazer uma ficha           | **Provar a cada venda que é orgânico:** gera o QR e o cartão da banca mesmo para quem não usa o aplicativo, inclusive pela cooperativa.                                                                   |
-| Roteiro de apoio à visita | **Visita que toma o dia inteiro:** respostas com um toque, perguntas que só aparecem quando fazem sentido, dados da ficha sem digitar e folha pronta para assinar no fim.                                 |
-| Roteiro de apoio à visita | **Estar pronto para a visita:** o produtor e o grupo podem percorrer o mesmo roteiro antes da visita e ver, no resumo, o que ainda falta acertar.                                                         |
-| Página inicial            | Explica o projeto ao produtor, à cooperativa e a quem avalia, e leva às ferramentas e à ficha de exemplo.                                                                                                 |
+| Página                    | Dor ou ganho que atende                                                                                                                                                                                      |
+| ------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Ficha do produtor         | **Provar a cada venda que é orgânico:** o QR na banca responde pelo produtor, sem foto nem convite para a roça. **Comprador conferir sozinho:** os números para conferir e como fazer isso estão na tela.    |
+| Fazer uma ficha           | **Provar a cada venda que é orgânico:** gera o QR e o cartão da banca mesmo para quem não usa o aplicativo, inclusive pela cooperativa.                                                                      |
+| Roteiro de apoio à visita | **Visita que toma o dia inteiro (hipótese, citada por um produtor):** respostas com um toque, perguntas que só aparecem quando fazem sentido, dados da ficha sem digitar e folha pronta para assinar no fim. |
+| Roteiro de apoio à visita | **Estar pronto para a visita:** o produtor e o grupo podem percorrer o mesmo roteiro antes da visita e ver, no resumo, o que ainda falta acertar.                                                            |
+| Página inicial            | Explica o projeto ao produtor, à cooperativa e a quem avalia, e leva às ferramentas e à ficha de exemplo.                                                                                                    |
