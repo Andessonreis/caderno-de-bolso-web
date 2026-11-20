@@ -1,0 +1,9 @@
+.pagina {
+  max-width: 40rem;
+  padding-block: var(--e-7) var(--e-8);
+}
+
+.texto {
+  font-size: var(--texto-grande);
+  margin-bottom: var(--e-5);
+}

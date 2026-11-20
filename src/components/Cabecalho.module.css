@@ -1,0 +1,68 @@
+.cabecalho {
+  border-bottom: 1px solid var(--linha);
+  background: var(--papel);
+}
+
+.linha {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--e-3);
+  min-height: 4rem;
+}
+
+.marca {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--e-2);
+  min-height: var(--alvo-toque);
+  font-family: var(--fonte-titulo);
+  font-weight: 800;
+  font-size: 1.25rem;
+  color: var(--tinta);
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.marca:hover {
+  color: var(--folha-escura);
+}
+
+.menu {
+  display: flex;
+  gap: var(--e-1);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  min-height: 3rem;
+  padding: 0 0.75rem;
+  border-radius: var(--raio);
+  color: var(--tinta);
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.link:hover {
+  background: var(--papel-fundo);
+  color: var(--tinta);
+}
+
+.link[aria-current="page"] {
+  background: var(--folha-clara);
+  color: var(--folha-escura);
+}
+
+@media (max-width: 23rem) {
+  .marca span {
+    font-size: 1.0625rem;
+  }
+  .link {
+    padding: 0 0.5rem;
+  }
+}
