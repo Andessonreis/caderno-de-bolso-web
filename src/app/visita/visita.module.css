@@ -399,7 +399,7 @@
   font-family: var(--fonte-texto);
 }
 
-.importar .campo {
+.importar :global(.campo) {
   margin: var(--e-3) 0;
 }
 
@@ -423,7 +423,7 @@
   background: var(--papel-cartao);
 }
 
-.nc .campo {
+.nc :global(.campo) {
   margin-bottom: var(--e-3);
 }
 
@@ -470,7 +470,7 @@
   border-top: 1px solid var(--linha);
 }
 
-.navegacao .botao {
+.navegacao :global(.botao) {
   flex: 1 1 0;
 }
 
@@ -487,7 +487,7 @@
     margin-inline: 0;
     padding-inline: 0;
   }
-  .navegacao .botao {
+  .navegacao :global(.botao) {
     flex: 0 1 auto;
   }
   .acoesResumo {
@@ -497,4 +497,27 @@
   .acoesResumo p {
     grid-column: 1 / -1;
   }
+}
+
+/* ------------------------------------------------------------ Avisos da lista */
+
+.conflito {
+  margin: var(--e-4) 0;
+  padding: var(--e-4);
+  border: 2px solid var(--barro);
+  border-radius: var(--raio-grande);
+  background: var(--papel-cartao);
+}
+
+.acoesConflito {
+  display: grid;
+  gap: var(--e-3);
+}
+
+.avisoReserva {
+  margin: var(--e-4) 0;
+}
+
+.avisoReserva :global(.grupo-botoes) {
+  margin-top: var(--e-2);
 }

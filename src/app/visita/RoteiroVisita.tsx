@@ -1,28 +1,75 @@
 "use client";
 
-import { useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { Icone } from "@/components/Icone";
-import { apagarVisita, listarVisitas, salvarVisita, visitaDeArquivo } from "@/lib/armazenamento";
+import {
+  CHAVE_RESERVA,
+  CHAVE_VISITAS,
+  apagarVisita,
+  avaliarImportacao,
+  comoCopia,
+  lerReserva,
+  lerVisitas,
+  listarVisitas,
+  protegerConteudoEstragado,
+  salvarVisita,
+  visitaDeArquivo,
+} from "@/lib/armazenamento";
 import { dataPorExtenso } from "@/lib/ficha";
-import { avisarMudancaNasVisitas, useVisitasGuardadasCru } from "@/lib/useNavegador";
+import { avisarMudancaNasVisitas, useChaveLocal } from "@/lib/useNavegador";
 import { novaVisita, progresso, type Visita } from "@/lib/visita";
 import { EditorVisita } from "./EditorVisita";
 import estilos from "./visita.module.css";
 
 type Tela = { tipo: "lista" } | { tipo: "editor"; visita: Visita };
 
+type Conflito = { importada: Visita; local: Visita };
+
+const SEM_ESPACO = "O aparelho está sem espaço para guardar a visita.";
+
+function quando(iso: string): string {
+  const data = new Date(iso);
+  return Number.isNaN(data.getTime())
+    ? "em data desconhecida"
+    : data.toLocaleString("pt-BR", { dateStyle: "short", timeStyle: "short" });
+}
+
+function baixarTexto(conteudo: string, nome: string) {
+  const url = URL.createObjectURL(new Blob([conteudo], { type: "application/json" }));
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = nome;
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  setTimeout(() => URL.revokeObjectURL(url), 1000);
+}
+
 export function RoteiroVisita() {
   // localStorage só existe no navegador; no HTML do build a lista fica "procurando".
-  const cru = useVisitasGuardadasCru();
-  const visitas = useMemo(
-    () => (cru === null ? null : listarVisitas({ getItem: () => cru, setItem: () => undefined })),
-    [cru],
-  );
+  const cru = useChaveLocal(CHAVE_VISITAS);
+  const leitura = useMemo(() => (cru === undefined ? null : lerVisitas(cru)), [cru]);
+  const visitas = leitura?.visitas ?? null;
+  const reservaCru = useChaveLocal(CHAVE_RESERVA);
+  const reserva = useMemo(() => lerReserva(reservaCru ?? null), [reservaCru]);
+  const [conflito, setConflito] = useState<Conflito | null>(null);
+  const [confirmarApagarReserva, setConfirmarApagarReserva] = useState(false);
   const [tela, setTela] = useState<Tela>({ tipo: "lista" });
   const [mensagem, setMensagem] = useState<{ tipo: "erro" | "ok"; texto: string } | null>(null);
   const [confirmarApagar, setConfirmarApagar] = useState<string | null>(null);
   const entradaArquivo = useRef<HTMLInputElement>(null);
   const tituloLista = useRef<HTMLHeadingElement>(null);
+
+  // Achou conteúdo estragado: guarda uma cópia já, antes de qualquer regravação.
+  useEffect(() => {
+    if (!leitura?.estragado) return;
+    try {
+      protegerConteudoEstragado(localStorage);
+      avisarMudancaNasVisitas();
+    } catch {
+      // Sem espaço: as gravações seguintes também tentam e avisam o erro.
+    }
+  }, [leitura]);
 
   function abrir(visita: Visita) {
     setMensagem(null);
@@ -35,7 +82,7 @@ export function RoteiroVisita() {
     try {
       salvarVisita(localStorage, visita);
     } catch {
-      setMensagem({ tipo: "erro", texto: "O aparelho está sem espaço para guardar a visita." });
+      setMensagem({ tipo: "erro", texto: SEM_ESPACO });
       return;
     }
     avisarMudancaNasVisitas();
@@ -60,21 +107,30 @@ export function RoteiroVisita() {
       setMensagem({ tipo: "erro", texto: resultado.mensagem });
       return;
     }
-    const existentes = listarVisitas(localStorage);
-    const jaExiste = existentes.some((v) => v.id === resultado.visita.id);
+    const avaliacao = avaliarImportacao(listarVisitas(localStorage), resultado.visita);
+    if (avaliacao.tipo === "localMaisNova") {
+      setMensagem(null);
+      setConflito({ importada: resultado.visita, local: avaliacao.local });
+      return;
+    }
+    guardarImportada(
+      resultado.visita,
+      avaliacao.tipo === "nova"
+        ? "Visita aberta e guardada neste aparelho."
+        : "Visita aberta. A do arquivo era mais nova e substituiu a que estava neste aparelho.",
+    );
+  }
+
+  function guardarImportada(visita: Visita, texto: string) {
     try {
-      salvarVisita(localStorage, resultado.visita);
+      salvarVisita(localStorage, visita);
     } catch {
-      setMensagem({ tipo: "erro", texto: "O aparelho está sem espaço para guardar a visita." });
+      setMensagem({ tipo: "erro", texto: SEM_ESPACO });
       return;
     }
     avisarMudancaNasVisitas();
-    setMensagem({
-      tipo: "ok",
-      texto: jaExiste
-        ? "Visita aberta. Ela substituiu a cópia que já estava neste aparelho."
-        : "Visita aberta e guardada neste aparelho.",
-    });
+    setConflito(null);
+    setMensagem({ tipo: "ok", texto });
   }
 
   if (tela.tipo === "editor") {
@@ -124,6 +180,113 @@ export function RoteiroVisita() {
           }}
         />
       </div>
+
+      {conflito ? (
+        <div className={estilos.conflito} role="alertdialog" aria-labelledby="titulo-conflito">
+          <h2 id="titulo-conflito" className={estilos.pergunta}>
+            Este aparelho tem uma versão mais nova desta visita
+          </h2>
+          <p>
+            A visita de {conflito.local.produtor.nome || "produtor sem nome"} foi alterada aqui em{" "}
+            {quando(conflito.local.atualizadaEm)}. A do arquivo é de{" "}
+            {quando(conflito.importada.atualizadaEm)}.
+          </p>
+          <div className={estilos.acoesConflito}>
+            <button
+              type="button"
+              className="botao botao-primario"
+              onClick={() =>
+                guardarImportada(
+                  comoCopia(conflito.importada),
+                  "A visita do arquivo foi guardada como cópia. A deste aparelho continua igual.",
+                )
+              }
+            >
+              <Icone nome="mais" />
+              Guardar o arquivo como cópia
+            </button>
+            <button
+              type="button"
+              className="botao botao-perigo"
+              onClick={() =>
+                guardarImportada(
+                  conflito.importada,
+                  "A visita deste aparelho foi substituída pela do arquivo.",
+                )
+              }
+            >
+              <Icone nome="abrir" />
+              Substituir pela do arquivo
+            </button>
+            <button
+              type="button"
+              className="botao botao-discreto"
+              onClick={() => {
+                setConflito(null);
+                setMensagem({ tipo: "ok", texto: "Nada foi mudado." });
+              }}
+            >
+              Cancelar
+            </button>
+          </div>
+        </div>
+      ) : null}
+
+      {leitura?.estragado || reserva.length > 0 ? (
+        <div className={`aviso ${estilos.avisoReserva}`} role="status">
+          {leitura?.estragado ? (
+            <p>
+              <strong>Algumas visitas guardadas neste aparelho estão estragadas</strong> e não dá
+              para abri-las aqui.{visitas?.length ? " As outras continuam normais." : ""}
+            </p>
+          ) : null}
+          {reserva.length > 0 ? (
+            <>
+              <p>
+                Guardamos uma cópia do que estava estragado. Você pode baixar essa cópia e mostrar
+                para quem cuida do projeto tentar recuperar.
+              </p>
+              <div className="grupo-botoes">
+                <button
+                  type="button"
+                  className="botao botao-secundario"
+                  onClick={() =>
+                    baixarTexto(JSON.stringify(reserva, null, 2), "copia-visitas-estragadas.json")
+                  }
+                >
+                  <Icone nome="baixar" />
+                  Baixar a cópia guardada
+                </button>
+                {confirmarApagarReserva ? (
+                  <button
+                    type="button"
+                    className="botao botao-perigo"
+                    onClick={() => {
+                      localStorage.removeItem(CHAVE_RESERVA);
+                      avisarMudancaNasVisitas();
+                      setConfirmarApagarReserva(false);
+                    }}
+                  >
+                    <Icone nome="lixeira" />
+                    Sim, apagar a cópia
+                  </button>
+                ) : (
+                  <button
+                    type="button"
+                    className="botao botao-discreto"
+                    onClick={() => setConfirmarApagarReserva(true)}
+                  >
+                    <Icone nome="lixeira" />
+                    Apagar a cópia guardada
+                  </button>
+                )}
+              </div>
+            </>
+          ) : (
+            <p>Não houve espaço para guardar uma cópia do que estava estragado.</p>
+          )}
+        </div>
+      ) : null}
 
       <div role="status" aria-live="polite">
         {mensagem ? (

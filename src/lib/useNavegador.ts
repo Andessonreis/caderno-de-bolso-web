@@ -1,7 +1,6 @@
 "use client";
 
 import { useSyncExternalStore } from "react";
-import { CHAVE_VISITAS } from "./armazenamento";
 
 const nadaParaAssinar = () => () => {};
 
@@ -17,37 +16,41 @@ export function useDoNavegador<T extends string | number | boolean | null>(
   return useSyncExternalStore(nadaParaAssinar, ler, () => noServidor);
 }
 
-const EVENTO_VISITAS = "caderno-de-bolso:visitas";
+const EVENTO_ARMAZENAMENTO = "caderno-de-bolso:armazenamento";
+const PREFIXO_CHAVES = "caderno-de-bolso:";
 
-/** Avisa a tela de que as visitas guardadas mudaram. */
+/** Avisa a tela de que algo guardado pelo site mudou (visitas, reserva). */
 export function avisarMudancaNasVisitas() {
-  window.dispatchEvent(new Event(EVENTO_VISITAS));
+  window.dispatchEvent(new Event(EVENTO_ARMAZENAMENTO));
 }
 
-function assinarVisitas(avisar: () => void) {
-  const aoMudarArmazenamento = (e: StorageEvent) => {
-    if (e.key === null || e.key === CHAVE_VISITAS) avisar();
+function assinarArmazenamento(avisar: () => void) {
+  const aoMudarEmOutraAba = (e: StorageEvent) => {
+    if (e.key === null || e.key.startsWith(PREFIXO_CHAVES)) avisar();
   };
-  window.addEventListener(EVENTO_VISITAS, avisar);
-  window.addEventListener("storage", aoMudarArmazenamento);
+  window.addEventListener(EVENTO_ARMAZENAMENTO, avisar);
+  window.addEventListener("storage", aoMudarEmOutraAba);
   return () => {
-    window.removeEventListener(EVENTO_VISITAS, avisar);
-    window.removeEventListener("storage", aoMudarArmazenamento);
+    window.removeEventListener(EVENTO_ARMAZENAMENTO, avisar);
+    window.removeEventListener("storage", aoMudarEmOutraAba);
   };
-}
-
-function lerVisitasCru(): string {
-  try {
-    return localStorage.getItem(CHAVE_VISITAS) ?? "[]";
-  } catch {
-    return "[]";
-  }
 }
 
 /**
- * Conteúdo cru das visitas guardadas, atualizado quando esta aba ou outra
- * aba muda a lista. null no build (não há localStorage lá).
+ * Valor cru de uma chave do localStorage, atualizado quando esta aba ou outra
+ * muda o que está guardado. `undefined` no build (lá não existe localStorage);
+ * `null` quando a chave não existe no aparelho.
  */
-export function useVisitasGuardadasCru(): string | null {
-  return useSyncExternalStore(assinarVisitas, lerVisitasCru, () => null);
+export function useChaveLocal(chave: string): string | null | undefined {
+  return useSyncExternalStore(
+    assinarArmazenamento,
+    () => {
+      try {
+        return localStorage.getItem(chave);
+      } catch {
+        return null;
+      }
+    },
+    () => undefined,
+  );
 }

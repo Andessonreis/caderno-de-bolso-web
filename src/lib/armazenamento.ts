@@ -20,12 +20,24 @@ import {
 } from "./visita";
 
 export const CHAVE_VISITAS = "caderno-de-bolso:visitas:v1";
+/** Onde fica uma cópia do que estava estragado, antes de regravar a lista. */
+export const CHAVE_RESERVA = "caderno-de-bolso:visitas:reserva";
 export const FORMATO_ARQUIVO = "caderno-de-bolso/visita";
 export const VERSAO_ARQUIVO = 1;
 
-/** Limites para não deixar um arquivo estranho encher o aparelho. */
-const LIMITE_TEXTO_CURTO = 120;
-const LIMITE_TEXTO_LONGO = 4000;
+/**
+ * Limites de cada campo. Os formulários usam os mesmos números no maxLength,
+ * para nada ser cortado sem a pessoa ver.
+ */
+export const LIMITES_VISITA = {
+  nome: 80,
+  municipio: 60,
+  visitantes: 120,
+  textoLongo: 4000,
+} as const;
+
+const LIMITE_TEXTO_CURTO = LIMITES_VISITA.visitantes;
+const LIMITE_TEXTO_LONGO = LIMITES_VISITA.textoLongo;
 const LIMITE_NAO_CONFORMIDADES = 50;
 const LIMITE_VISITAS = 200;
 
@@ -114,8 +126,8 @@ export function normalizarVisita(entrada: unknown): Visita | null {
     criadaEm: dataIso(o.criadaEm),
     atualizadaEm: dataIso(o.atualizadaEm),
     produtor: {
-      nome: texto(produtorCru.nome, 80),
-      municipio: texto(produtorCru.municipio, 60),
+      nome: texto(produtorCru.nome, LIMITES_VISITA.nome),
+      municipio: texto(produtorCru.municipio, LIMITES_VISITA.municipio),
       culturas,
     },
     data: dataValida(o.data) ? o.data : "",
@@ -132,37 +144,127 @@ export function normalizarVisita(entrada: unknown): Visita | null {
   };
 }
 
-/** Lista as visitas guardadas, da mais recente para a mais antiga. */
-export function listarVisitas(armazem: Armazem): Visita[] {
-  let cru: unknown;
+export type LeituraVisitas = {
+  visitas: Visita[];
+  /** true se havia algo guardado que não deu para ler (todo ou em parte). */
+  estragado: boolean;
+};
+
+/** Lê o conteúdo cru guardado no aparelho. Nunca lança erro. */
+export function lerVisitas(cru: string | null): LeituraVisitas {
+  if (cru === null) return { visitas: [], estragado: false };
+  let dados: unknown;
   try {
-    cru = JSON.parse(armazem.getItem(CHAVE_VISITAS) ?? "[]");
+    dados = JSON.parse(cru);
   } catch {
-    return [];
+    return { visitas: [], estragado: true };
   }
-  if (!Array.isArray(cru)) return [];
-  return cru
-    .map(normalizarVisita)
-    .filter((v): v is Visita => v !== null)
-    .sort((a, b) => b.atualizadaEm.localeCompare(a.atualizadaEm));
+  if (!Array.isArray(dados)) return { visitas: [], estragado: true };
+  const visitas = dados.map(normalizarVisita).filter((v): v is Visita => v !== null);
+  return {
+    visitas: visitas.sort((a, b) => b.atualizadaEm.localeCompare(a.atualizadaEm)),
+    estragado: visitas.length !== dados.length,
+  };
 }
 
-function gravar(armazem: Armazem, visitas: Visita[]): void {
+/** Lista as visitas guardadas, da mais recente para a mais antiga. */
+export function listarVisitas(armazem: Armazem): Visita[] {
+  return lerVisitas(armazem.getItem(CHAVE_VISITAS)).visitas;
+}
+
+export type Reserva = { em: string; conteudo: string };
+
+/** Cópias guardadas de conteúdo estragado, da mais antiga para a mais nova. */
+export function lerReserva(cru: string | null): Reserva[] {
+  if (cru === null) return [];
+  try {
+    const dados: unknown = JSON.parse(cru);
+    if (Array.isArray(dados)) {
+      return dados.filter(
+        (r): r is Reserva =>
+          typeof r === "object" &&
+          r !== null &&
+          typeof (r as Reserva).em === "string" &&
+          typeof (r as Reserva).conteudo === "string",
+      );
+    }
+  } catch {
+    // A própria reserva estragou: ela vira uma entrada, para não se perder.
+  }
+  return [{ em: "", conteudo: cru }];
+}
+
+/**
+ * Antes de regravar a lista, se o que está guardado não pôde ser lido por
+ * inteiro, copia o conteúdo cru para a chave de reserva. Se não houver espaço
+ * para a cópia, lança erro e a lista não é regravada.
+ */
+export function protegerConteudoEstragado(armazem: Armazem, agora = new Date()): void {
+  const cru = armazem.getItem(CHAVE_VISITAS);
+  if (cru === null || !lerVisitas(cru).estragado) return;
+  const reserva = lerReserva(armazem.getItem(CHAVE_RESERVA));
+  if (reserva.some((r) => r.conteudo === cru)) return;
+  reserva.push({ em: agora.toISOString(), conteudo: cru });
+  armazem.setItem(CHAVE_RESERVA, JSON.stringify(reserva));
+}
+
+function gravar(armazem: Armazem, visitas: Visita[], agora: Date): void {
+  protegerConteudoEstragado(armazem, agora);
   armazem.setItem(CHAVE_VISITAS, JSON.stringify(visitas.slice(0, LIMITE_VISITAS)));
 }
 
 /** Salva (cria ou substitui) uma visita. Lança erro se o aparelho estiver sem espaço. */
-export function salvarVisita(armazem: Armazem, visita: Visita): Visita[] {
+export function salvarVisita(armazem: Armazem, visita: Visita, agora = new Date()): Visita[] {
   const outras = listarVisitas(armazem).filter((v) => v.id !== visita.id);
   const lista = [visita, ...outras];
-  gravar(armazem, lista);
+  gravar(armazem, lista, agora);
   return lista;
 }
 
-export function apagarVisita(armazem: Armazem, id: string): Visita[] {
+export function apagarVisita(armazem: Armazem, id: string, agora = new Date()): Visita[] {
   const lista = listarVisitas(armazem).filter((v) => v.id !== id);
-  gravar(armazem, lista);
+  gravar(armazem, lista, agora);
   return lista;
+}
+
+export type AvaliacaoImportacao =
+  | { tipo: "nova" }
+  | { tipo: "arquivoMaisNovo"; local: Visita }
+  | { tipo: "localMaisNova"; local: Visita };
+
+/**
+ * Compara a visita de um arquivo com o que já existe no aparelho. Só é
+ * preciso perguntar quando a cópia do aparelho foi mexida depois da do arquivo.
+ */
+export function avaliarImportacao(existentes: Visita[], importada: Visita): AvaliacaoImportacao {
+  const local = existentes.find((v) => v.id === importada.id);
+  if (!local) return { tipo: "nova" };
+  const tempoLocal = Date.parse(local.atualizadaEm);
+  const tempoArquivo = Date.parse(importada.atualizadaEm);
+  return tempoLocal > tempoArquivo
+    ? { tipo: "localMaisNova", local }
+    : { tipo: "arquivoMaisNovo", local };
+}
+
+/** A mesma visita com outro id, para guardar ao lado da que já existe. */
+export function comoCopia(
+  visita: Visita,
+  agora = new Date(),
+  id = novoId(agora.getTime()),
+): Visita {
+  const marca = " (cópia)";
+  const nome = visita.produtor.nome || "Produtor sem nome";
+  const cabe = Array.from(nome)
+    .slice(0, LIMITES_VISITA.nome - marca.length)
+    .join("")
+    .trim();
+  return {
+    ...visita,
+    id,
+    criadaEm: agora.toISOString(),
+    atualizadaEm: agora.toISOString(),
+    produtor: { ...visita.produtor, nome: cabe + marca },
+  };
 }
 
 /** Conteúdo do arquivo para levar a visita a outro aparelho. */
