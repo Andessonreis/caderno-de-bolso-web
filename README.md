@@ -9,12 +9,13 @@ pessoas: quem compra na feira e quem faz a visita de pares.
 - Site publicado: https://andessonreis.github.io/caderno-de-bolso-web/
 - Aplicativo de celular (anotações na roça, sem internet): https://github.com/Andessonreis/caderno-de-bolso-mobile
 - Fluxos de cada tela: [docs/fluxos.md](docs/fluxos.md)
+- Todas as telas, numeradas na ordem de uso: [docs/telas](docs/telas/README.md)
 
 <p>
-  <img src="docs/telas/inicio.png" alt="Página inicial no celular" width="200">
-  <img src="docs/telas/ficha.png" alt="Ficha do produtor aberta pelo QR" width="200">
-  <img src="docs/telas/cartao.png" alt="Cartão com QR para a banca" width="200">
-  <img src="docs/telas/visita.png" alt="Roteiro de apoio à visita, etapa Documentos" width="200">
+  <img src="docs/telas/01-inicio.png" alt="Página inicial no celular" width="200">
+  <img src="docs/telas/02-ficha.png" alt="Ficha do produtor aberta pelo QR" width="200">
+  <img src="docs/telas/07-criar-ficha-cartao-para-a-banca.png" alt="Cartão com QR para a banca" width="200">
+  <img src="docs/telas/11-visita-etapa-2-documentos.png" alt="Roteiro de apoio à visita, etapa Documentos" width="200">
 </p>
 
 ## O problema

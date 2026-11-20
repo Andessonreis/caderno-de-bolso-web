@@ -77,7 +77,7 @@ depois: a visita aparece na lista com o quanto já foi respondido.
 ## Página inicial (`/`)
 
 <p>
-  <img src="telas/inicio.png" alt="Página inicial no celular, com o título e a ficha de exemplo" width="240">
+  <img src="telas/01-inicio.png" alt="Página inicial no celular, com o título e a ficha de exemplo" width="240">
 </p>
 
 **De onde se chega:** digitando o endereço do site, pela marca no topo de qualquer página, pelo
@@ -118,7 +118,7 @@ a página mostra um de três estados.
 ### Ficha válida
 
 <p>
-  <img src="telas/ficha.png" alt="Ficha do produtor de exemplo, Zé Carlos da Silva, aberta pelo QR" width="240">
+  <img src="telas/02-ficha.png" alt="Ficha do produtor de exemplo, Zé Carlos da Silva, aberta pelo QR" width="240">
 </p>
 
 Você vê, de cima para baixo:
@@ -148,7 +148,7 @@ uma faixa no alto avisa "Esta é uma ficha de exemplo, com uma pessoa inventada.
 ### Sem código (`/ficha/`)
 
 <p>
-  <img src="telas/ficha-sem-codigo.png" alt="Ficha sem código, com os botões Ver ficha de exemplo e Fazer uma ficha" width="240">
+  <img src="telas/03-ficha-sem-codigo.png" alt="Ficha sem código, com os botões Ver ficha de exemplo e Fazer uma ficha" width="240">
 </p>
 
 Quando se chega pelo atalho **Ficha** do topo, não há ficha para mostrar. Você vê "Ficha do
@@ -159,7 +159,7 @@ página. Tocando em **Fazer uma ficha**, vai para o formulário de ficha.
 ### Código que não dá para ler
 
 <p>
-  <img src="telas/ficha-codigo-ruim.png" alt="Aviso Não conseguimos ler este código, com o botão Ver ficha de exemplo" width="240">
+  <img src="telas/04-ficha-codigo-ilegivel.png" alt="Aviso Não conseguimos ler este código, com o botão Ver ficha de exemplo" width="240">
 </p>
 
 Quando o link está cortado, foi alterado ou não segue o formato, aparece "Não conseguimos ler este
@@ -174,9 +174,9 @@ quem nunca entrou no site, a primeira leitura do QR precisa de internet.
 ## Fazer uma ficha (`/ficha/criar/`)
 
 <p>
-  <img src="telas/criar-vazio.png" alt="Formulário de ficha, ainda vazio" width="240">
-  <img src="telas/criar-formulario.png" alt="Formulário de ficha preenchido com os dados do Zé Carlos" width="240">
-  <img src="telas/criar-cartao.png" alt="Cartão para a banca com nome, selo e QR, e os botões de ação" width="240">
+  <img src="telas/05-criar-ficha-vazio.png" alt="Formulário de ficha, ainda vazio" width="240">
+  <img src="telas/06-criar-ficha-preenchido.png" alt="Formulário de ficha preenchido com os dados do Zé Carlos" width="240">
+  <img src="telas/07-criar-ficha-cartao-para-a-banca.png" alt="Cartão para a banca com nome, selo e QR, e os botões de ação" width="240">
 </p>
 
 **De onde se chega:** pelo botão **Fazer uma ficha agora** da página inicial, pelo botão **Fazer uma
@@ -224,8 +224,8 @@ preenchido.
 ## Roteiro de apoio à visita: lista (`/visita/`)
 
 <p>
-  <img src="telas/visita-lista-vazia.png" alt="Lista de visitas sem nenhuma visita ainda" width="240">
-  <img src="telas/visita-lista.png" alt="Lista de visitas com uma visita guardada neste aparelho" width="240">
+  <img src="telas/08-visita-lista-vazia.png" alt="Lista de visitas sem nenhuma visita ainda" width="240">
+  <img src="telas/09-visita-lista.png" alt="Lista de visitas com uma visita guardada neste aparelho" width="240">
 </p>
 
 **De onde se chega:** pelo atalho **Visita** do topo, pelo botão **Abrir roteiro de visita** da
@@ -302,7 +302,7 @@ salvar: aparelho sem espaço".
 ### Etapa 1. Quem e quando
 
 <p>
-  <img src="telas/visita-etapa-1.png" alt="Etapa 1, com o quadro Tem a ficha do produtor e os dados preenchidos" width="240">
+  <img src="telas/10-visita-etapa-1-quem-e-quando.png" alt="Etapa 1, com o quadro Tem a ficha do produtor e os dados preenchidos" width="240">
 </p>
 
 No topo, o quadro **Tem a ficha do produtor?**, opcional, para não precisar digitar. Você cola o
@@ -324,7 +324,7 @@ de pares** (feita por agricultores do grupo) ou **Olhar externo** (com alguém d
 ### Etapa 2. Documentos
 
 <p>
-  <img src="telas/visita-etapa-2.png" alt="Etapa 2, Documentos, com a primeira pergunta respondida" width="240">
+  <img src="telas/11-visita-etapa-2-documentos.png" alt="Etapa 2, Documentos, com a primeira pergunta respondida" width="240">
 </p>
 
 Seis perguntas: o caderno de campo foi apresentado; o caderno está em dia (plantios, tratos,
@@ -335,7 +335,7 @@ manejo bate com o que foi visto na roça.
 ### Etapa 3. Sementes e mudas
 
 <p>
-  <img src="telas/visita-etapa-3.png" alt="Etapa 3, Sementes e mudas" width="240">
+  <img src="telas/12-visita-etapa-3-sementes-e-mudas.png" alt="Etapa 3, Sementes e mudas" width="240">
 </p>
 
 Primeiro, **Tem algodão, feijão, milho ou soja plantado?**, com quatro opções para marcar (pode
@@ -347,7 +347,7 @@ compra ou registro da troca). Desmarcando todas, essa pergunta some e deixa de c
 ### Etapa 4. Insumos e manejo
 
 <p>
-  <img src="telas/visita-etapa-4.png" alt="Etapa 4, Insumos e manejo" width="240">
+  <img src="telas/13-visita-etapa-4-insumos-e-manejo.png" alt="Etapa 4, Insumos e manejo" width="240">
 </p>
 
 Quatro perguntas: os insumos usados são permitidos na produção orgânica; a origem dos insumos está
@@ -357,7 +357,7 @@ vinda do vizinho (barreira de plantas, distância ou outro cuidado).
 ### Etapa 5. Colheita, armazenamento e transporte
 
 <p>
-  <img src="telas/visita-etapa-5.png" alt="Etapa 5, com armazém e transporte compartilhados e o campo da separação" width="240">
+  <img src="telas/14-visita-etapa-5-colheita-e-armazenamento.png" alt="Etapa 5, com armazém e transporte compartilhados e o campo da separação" width="240">
 </p>
 
 Primeiro, **O armazém e o transporte são:** **Só para orgânico** ou **Compartilhados com
@@ -369,7 +369,7 @@ e **As embalagens e sacarias estão limpas e identificadas?**.
 ### Etapa 6. Controle
 
 <p>
-  <img src="telas/visita-etapa-6.png" alt="Etapa 6, Controle" width="240">
+  <img src="telas/15-visita-etapa-6-controle.png" alt="Etapa 6, Controle" width="240">
 </p>
 
 Duas perguntas: a família anota custos e produção; as quantidades colhidas e vendidas fazem sentido
@@ -378,7 +378,7 @@ entre si (não se vende mais do que se colheu).
 ### Etapa 7. Fechamento
 
 <p>
-  <img src="telas/visita-etapa-7.png" alt="Etapa 7, Fechamento, com uma não conformidade anotada" width="240">
+  <img src="telas/16-visita-etapa-7-fechamento.png" alt="Etapa 7, Fechamento, com uma não conformidade anotada" width="240">
 </p>
 
 **O que precisa corrigir:** começa com "Nenhuma anotada." Tocando em **Anotar não conformidade**,
@@ -392,7 +392,7 @@ uma frase explicando. Tocando em **Ver resumo**, vai para o Resumo.
 ### Resumo
 
 <p>
-  <img src="telas/visita-resumo.png" alt="Resumo da visita, com as respostas que faltam por etapa" width="240">
+  <img src="telas/17-visita-resumo.png" alt="Resumo da visita, com as respostas que faltam por etapa" width="240">
 </p>
 
 Se tudo foi respondido, aparece "Tudo respondido. Pode imprimir ou guardar o arquivo." Senão,
@@ -419,7 +419,7 @@ que o site foi aberto uma vez.
 ## Página não encontrada
 
 <p>
-  <img src="telas/nao-encontrada.png" alt="Página não encontrada, com os botões Ir para o início e Roteiro de visita" width="240">
+  <img src="telas/18-pagina-nao-encontrada.png" alt="Página não encontrada, com os botões Ir para o início e Roteiro de visita" width="240">
 </p>
 
 **De onde se chega:** por um endereço que não existe no site, por exemplo um link cortado.
