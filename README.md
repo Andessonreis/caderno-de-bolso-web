@@ -1,124 +1,193 @@
-# Caderno de Bolso — site
+# Caderno de Bolso
 
-Complemento do caderno de campo para agricultores familiares agroecológicos com certificação
-participativa (SPG) do Território de Irecê, Bahia. Projeto da disciplina de Empreendedorismo do
-curso de Análise e Desenvolvimento de Sistemas do IFBA, Campus Irecê, equipe Rastreabilidade de
-Grãos.
+**O comprador confere sozinho de onde vem o alimento, e a visita de pares cabe no celular.**
 
-O caderno de papel continua sendo o registro do agricultor. O Caderno de Bolso só tira peso dele:
-o aplicativo de celular (repositório separado) serve para anotar na roça sem internet, e este site
-cuida de duas outras pontas, a ficha que o comprador abre na feira e o roteiro da visita de pares.
+Site do Caderno de Bolso, um complemento digital do caderno de campo para agricultores familiares
+agroecológicos com certificação participativa (SPG) no Território de Irecê, Bahia. Ele atende duas
+pessoas: quem compra na feira e quem faz a visita de pares.
 
-## As páginas
+- Site publicado: https://andessonreis.github.io/caderno-de-bolso-web/
+- Aplicativo de celular (anotações na roça, sem internet): https://github.com/Andessonreis/caderno-de-bolso-mobile
+- Fluxos de cada tela: [docs/fluxos.md](docs/fluxos.md)
 
-| Endereço       | Para quem          | O que faz                                                                                                                                 |
-| -------------- | ------------------ | ----------------------------------------------------------------------------------------------------------------------------------------- |
-| `/`            | todo mundo         | Explica o projeto em linguagem simples e leva às ferramentas e a uma ficha de exemplo.                                                    |
-| `/ficha`       | comprador na feira | Abre ao ler o QR da banca. Mostra quem produz, o que planta e como conferir a certificação.                                               |
-| `/ficha/criar` | produtor, grupo    | Formulário para gerar a ficha, o QR e um cartão A6 para imprimir, sem precisar do app.                                                    |
-| `/visita`      | quem faz a visita  | Roteiro de apoio à visita de pares, em etapas, salvo no aparelho a cada toque. Imprime a folha com assinaturas e exporta/importa arquivo. |
+<p>
+  <img src="docs/telas/inicio.png" alt="Página inicial no celular" width="200">
+  <img src="docs/telas/ficha.png" alt="Ficha do produtor aberta pelo QR" width="200">
+  <img src="docs/telas/cartao.png" alt="Cartão com QR para a banca" width="200">
+  <img src="docs/telas/visita.png" alt="Roteiro de apoio à visita, etapa Documentos" width="200">
+</p>
 
-Depois de aberto uma vez, o site funciona sem internet (service worker em `public/sw.js`). Isso
-importa principalmente para o `/visita`, que costuma ser usado na roça.
+## O problema
 
-## Contrato da ficha
+Nas entrevistas com agricultores certificados pelo sistema participativo, três dores se repetiram:
 
-O app e o site combinam o formato abaixo. O código está em `src/lib/ficha.ts`
-(`encodeFicha` / `decodeFicha`), com testes em `src/lib/ficha.test.ts`.
+- **Provar a cada venda que é orgânico.** Na feira, o produtor mostra foto no celular ou convida o
+  comprador para conhecer a roça. Não há um jeito rápido de o comprador conferir sozinho.
+- **A visita de pares toma o dia inteiro.** Três vezes por ano, agricultores do grupo visitam a roça
+  uns dos outros, conferem o caderno de campo e preenchem um roteiro longo em papel.
+- **Estar pronto para a visita.** O caderno de papel continua sendo o registro oficial do
+  agricultor, mas anotar tudo à noite, de memória, é onde as coisas se perdem.
 
-```
-/ficha/#d=<payload>
-payload = base64url, sem "=", dos bytes UTF-8 de JSON.stringify(objeto)
-```
+O Caderno de Bolso não substitui o caderno de papel: anda junto com ele. O aplicativo cuida da
+anotação na roça. Este site cuida das outras duas pontas.
 
-O site gera `/ficha/#d=` (com barra, que é o arquivo que existe em qualquer hospedagem
-estática). `/ficha#d=` também funciona: a hospedagem redireciona para `/ficha/` e o navegador
-mantém o `#d=`. Quando o site está num subcaminho, o prefixo vem antes:
-`https://andessonreis.github.io/caderno-de-bolso-web/ficha/#d=...`.
+## O que o site faz
+
+**Ficha do produtor (`/ficha`).** O comprador aponta a câmera para o QR da banca e, sem instalar
+nada, vê quem produz, de onde é, o que planta, desde quando tem certificação participativa, quando
+o caderno de campo foi atualizado e os números para conferir o certificado, com botão de copiar.
+A página explica em duas frases o que é certificação participativa e diz com clareza que os dados
+são declarados pelo produtor, indicando como confirmá-los. O comprador pode compartilhar a ficha.
+
+**Gerador de ficha e cartão (`/ficha/criar`).** Para o produtor ou a cooperativa montar a ficha sem
+o aplicativo: um formulário curto gera o link, o QR (feito no próprio aparelho) e um cartão no
+tamanho A6, pronto para imprimir e deixar na banca. Também baixa a imagem do QR.
+
+**Roteiro de apoio à visita (`/visita`).** Quem faz a visita de pares preenche no celular ou tablet,
+tocando em botões grandes (Sim, Em parte, Não, Não se aplica), em sete etapas: identificação,
+documentos, sementes e mudas, insumos e manejo, colheita e armazenamento, controle e fechamento.
+As perguntas se ajustam ao que é visto: a comprovação de origem só aparece para algodão, feijão,
+milho e soja, e a separação do produto só é pedida quando o armazém é compartilhado. Tudo é salvo
+no aparelho a cada toque. No fim, um resumo mostra o que ficou sem resposta, e a visita sai numa
+folha limpa para imprimir ou salvar em PDF, com espaço para assinaturas. Um arquivo leva a visita
+de um aparelho para outro. Depois de aberto uma vez, o roteiro funciona sem internet.
+
+## Decisões de engenharia
+
+**Os dados vão no link, não num servidor.** A ficha viaja inteira no endereço
+(`/ficha/#d=<payload>`), em JSON codificado em base64url. Como fica depois do `#`, o conteúdo nunca
+é enviado a servidor nenhum. Não há cadastro, login nem banco de dados para manter, e o QR continua
+funcionando enquanto o site existir. O formato é um contrato versionado, compartilhado com o
+aplicativo:
 
 ```jsonc
 {
   "v": 1, // versão do formato
-  "n": "nome do produtor", // obrigatório
+  "n": "nome do produtor", // único campo obrigatório
   "m": "município",
   "c": "cooperativa ou núcleo",
-  "o": "organismo de certificação (OPAC)",
+  "o": "organismo de certificação participativa",
   "ct": "identificação do certificado",
   "d": 2020, // certificado desde (ano)
   "r": "registro no cadastro nacional de produtores orgânicos",
   "s": "código do sistema de rastreio que já usa",
   "cu": ["milho crioulo", "feijão"], // até 12 culturas
-  "u": "2026-11-20", // última anotação no caderno (AAAA-MM-DD)
+  "u": "2026-11-20", // última anotação no caderno
 }
 ```
 
-Chaves vazias são omitidas. Como o payload vem de fora, a leitura é defensiva: confere tipos,
-limpa caracteres de controle, corta textos longos, trunca a lista de culturas e descarta campos
-desconhecidos. Nada disso é inserido como HTML. Versão diferente de `1` e payload estragado
-aparecem para o comprador como "Não conseguimos ler este código. Peça ao produtor para gerar de
-novo." O dado fica no `#`, então nunca chega a servidor nenhum.
+**Toda entrada é tratada como não confiável.** Um QR pode ser adulterado, e um arquivo de visita
+pode vir de qualquer lugar. A leitura (`src/lib/ficha.ts`, `src/lib/armazenamento.ts`) confere
+tipos, remove caracteres de controle e de inversão de texto, limita tamanhos, trunca listas,
+valida datas de calendário e descarta campos desconhecidos. Nenhum dado de fora é inserido como
+HTML. Versão desconhecida e payload corrompido viram uma mensagem amigável. Se os dados guardados
+no aparelho estragarem, uma cópia do conteúdo cru é preservada antes de qualquer regravação.
+Ao abrir o arquivo de uma visita que já existe, o site compara as datas e pergunta antes de trocar
+uma cópia mais nova.
+
+**Exportação estática.** O Next.js gera HTML, CSS e JavaScript prontos (`output: "export"`), que
+qualquer hospedagem estática serve. O site pode morar na raiz do domínio ou num subcaminho
+(`NEXT_PUBLIC_BASE_PATH`), como no GitHub Pages. Fontes são servidas pelo próprio site, sem CDN
+em tempo de uso.
+
+**Service worker próprio, pequeno e legível** (`public/sw.js`). Arquivos com hash são servidos do
+cache. Páginas tentam a rede primeiro com tempo limite curto e caem para a cópia guardada, o que
+ajuda com internet instável. Na instalação, as páginas principais e os arquivos que elas usam são
+guardados. A cada build, um script grava no service worker uma versão derivada do conteúdo
+(`scripts/versao-sw.mjs`). O navegador instala a versão nova, e ela apaga só os caches antigos
+deste site.
+
+**Feito para quem tem pouca familiaridade com o celular.** Português simples, sem jargão e sem
+inglês. Texto base de 17px, alvos de toque de pelo menos 48px, contraste AA ou melhor para leitura
+ao sol, todo ícone acompanhado de texto, HTML semântico, foco visível, navegação por teclado,
+grupos de botões que são rádios de verdade para leitores de tela, movimento mínimo respeitando
+`prefers-reduced-motion`. Campos mostram um contador perto do limite, para nada ser cortado sem
+aviso. A identidade visual usa papel, terra e verde-folha, com Alegreya nos títulos e Atkinson
+Hyperlegible no texto.
+
+**Lógica em funções puras e testadas.** Codificação da ficha, modelo do roteiro (perguntas como
+dados, não como telas repetidas), cálculo de progresso, armazenamento e prefixo de caminho são
+funções puras com testes em Vitest. A interface só as chama.
+
+## Stack
+
+- Next.js 16 (App Router, exportação estática) com React 19 e TypeScript em modo estrito
+- CSS Modules com tokens de design em variáveis CSS
+- `qrcode` para gerar o QR no navegador
+- Vitest para testes e ESLint (configuração do Next) para lint
+- GitHub Actions e GitHub Pages para publicação
+
+## Estrutura
+
+```
+src/
+  app/
+    page.tsx               página inicial
+    ficha/                 ficha do produtor (leitura do QR)
+      criar/               gerador de ficha, QR e cartão A6
+    visita/                roteiro de apoio à visita: lista, etapas, resumo e folha de impressão
+    manifest.ts            manifesto do app instalável
+    not-found.tsx          página 404
+  components/              cabeçalho, rodapé, ícones, botão de copiar, contador
+  lib/
+    ficha.ts               contrato da ficha: codificar, ler com segurança, datas
+    visita.ts              perguntas do roteiro como dados, progresso e pendências
+    armazenamento.ts       visitas no aparelho, arquivo de exportação, reserva de dados estragados
+    caminho.ts             prefixo do site (base path)
+    *.test.ts              testes
+public/
+  sw.js                    service worker
+  icones/                  ícones do app instalável
+scripts/versao-sw.mjs      versão do service worker gerada no build
+docs/                      fluxos das telas e capturas
+```
 
 ## Como rodar
 
-Precisa de Node.js 20.9 ou mais novo.
+Requer Node.js 20.9 ou mais novo (o CI usa o 24).
 
 ```bash
 npm install
-npm run dev        # http://localhost:3000
-npm test           # testes (vitest)
-npm run lint
-npm run typecheck
-npm run build      # gera o site estático em out/
+npm run dev          # http://localhost:3000
 ```
 
-Para conferir o build como ele vai para o ar:
+## Como testar
 
 ```bash
-npx serve out      # ou: cd out && python3 -m http.server
+npm test             # testes unitários (Vitest)
+npm run lint
+npm run typecheck
+npm run build        # gera o site estático em out/
+npx serve out        # confere o build como vai para o ar
 ```
 
 O service worker só é registrado no build de produção.
 
-### Variáveis de ambiente (opcionais)
-
-| Variável                      | Para quê                                                                                       |
-| ----------------------------- | ---------------------------------------------------------------------------------------------- |
-| `NEXT_PUBLIC_BASE_PATH`       | Prefixo quando o site não fica na raiz do domínio, como `/caderno-de-bolso-web`. Vazio = raiz. |
-| `NEXT_PUBLIC_MOBILE_REPO_URL` | Endereço do repositório do app. Sem ela, o botão "Conhecer o aplicativo" some.                 |
-| `NEXT_PUBLIC_SITE_URL`        | Endereço público do site, usado como base dos metadados de compartilhamento.                   |
-
-O prefixo vale para tudo: links, ícones, manifesto, service worker e o link que vai no QR.
-
-Depois do `next build`, o `postbuild` (`scripts/versao-sw.mjs`) grava em `out/sw.js` uma versão
-tirada do conteúdo do build. Assim cada publicação instala um service worker novo, que apaga o
-cache da versão anterior.
-
 ## Como publicar
 
-O build é só HTML, CSS e JavaScript na pasta `out/`, sem servidor.
+**GitHub Pages.** O workflow `.github/workflows/pages.yml` roda lint, testes e build com
+`NEXT_PUBLIC_BASE_PATH=/caderno-de-bolso-web` a cada push no `main` e publica a pasta `out`.
+Em Settings → Pages, a origem deve ser "GitHub Actions". O arquivo `public/.nojekyll` garante que a
+pasta `_next` seja publicada.
 
-- **GitHub Pages**: o workflow `.github/workflows/pages.yml` roda lint, testes e build com
-  `NEXT_PUBLIC_BASE_PATH=/caderno-de-bolso-web` a cada push no `main` e publica a pasta `out`.
-  No repositório, em Settings → Pages, escolha "GitHub Actions" como origem. O arquivo
-  `public/.nojekyll` impede o GitHub de esconder a pasta `_next`.
-- **Vercel**: importe o repositório, deixe o preset Next.js e publique, sem `NEXT_PUBLIC_BASE_PATH`.
-  As outras variáveis vão em Settings → Environment Variables.
-- **Qualquer hospedagem estática** (GitHub Pages, Netlify, servidor com nginx): rode
-  `npm run build` e envie a pasta `out/`. Os endereços terminam em barra (`/ficha/`), então
-  funcionam sem regra de reescrita. Use HTTPS: sem ele o navegador não ativa o modo sem internet.
+**Vercel ou qualquer hospedagem estática.** Rode `npm run build` sem `NEXT_PUBLIC_BASE_PATH` e
+publique `out/`. Os endereços terminam em barra (`/ficha/`) e funcionam sem regras de reescrita.
+Use HTTPS para o modo sem internet ser ativado.
 
-## Limitações
+| Variável                      | Para quê                                                                            |
+| ----------------------------- | ----------------------------------------------------------------------------------- |
+| `NEXT_PUBLIC_BASE_PATH`       | Prefixo quando o site fica num subcaminho, como `/caderno-de-bolso-web`.            |
+| `NEXT_PUBLIC_MOBILE_REPO_URL` | Repositório do aplicativo, exibido na página inicial. Sem ela, o botão não aparece. |
+| `NEXT_PUBLIC_SITE_URL`        | Endereço público, usado como base dos metadados de compartilhamento.                |
 
-- É um protótipo acadêmico. Não é ferramenta oficial de certificadora nem de órgão público, e o
-  roteiro de visita é só um apoio: não substitui o roteiro nem os documentos do grupo.
-- A ficha mostra o que o produtor declarou. Ela não é certificado. A própria página orienta o
-  comprador a pedir o certificado ou consultar o Cadastro Nacional de Produtores Orgânicos.
-- Não há cadastro, login nem banco de dados. As visitas e o rascunho da ficha ficam no
-  `localStorage` do aparelho: limpar os dados do navegador apaga tudo. Para levar uma visita a
-  outro aparelho, use "Baixar arquivo" e "Abrir arquivo de visita". Se o arquivo aberto for mais
-  antigo que a cópia do aparelho, o site pergunta antes de substituir e oferece guardar como cópia.
-- Se o que está guardado no aparelho estragar, o site copia o conteúdo cru para uma reserva antes
-  de regravar a lista, avisa a pessoa e deixa baixar essa cópia.
-- A leitura do QR pela câmera dentro do roteiro depende do navegador ter a API de leitura de
-  códigos (Chrome no Android tem). Onde não houver, o botão não aparece e dá para colar o link.
-- A ficha de exemplo é de uma pessoa inventada.
+## Roadmap
+
+- Leitura do QR ao vivo pela câmera dentro do roteiro de visita, em mais navegadores.
+- Roteiro configurável por grupo, para cada organismo de certificação ajustar as perguntas.
+- Ficha gerada pelo aplicativo já apontando para o endereço publicado do site.
+- Rodadas de teste com grupos de agricultores do território e ajustes de linguagem a partir delas.
+
+## Contexto
+
+Projeto da disciplina de Empreendedorismo do curso de Análise e Desenvolvimento de Sistemas do
+IFBA, Campus Irecê, equipe Rastreabilidade de Grãos. A ficha de exemplo usa uma pessoa fictícia.
