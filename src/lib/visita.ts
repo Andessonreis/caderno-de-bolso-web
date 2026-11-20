@@ -22,19 +22,21 @@ export const ROTULO_RESPOSTA: Record<Resposta, string> = {
 };
 
 export type EtapaId =
-  | "identificacao"
-  | "documentos"
-  | "sementes"
-  | "insumos"
-  | "colheita"
-  | "controle"
-  | "fechamento";
+  "identificacao" | "documentos" | "sementes" | "insumos" | "colheita" | "controle" | "fechamento";
 
 export type Etapa = { id: EtapaId; titulo: string; resumo: string };
 
 export const ETAPAS: ReadonlyArray<Etapa> = [
-  { id: "identificacao", titulo: "Quem e quando", resumo: "Produtor visitado, data e quem visita." },
-  { id: "documentos", titulo: "Documentos", resumo: "Caderno de campo, notas, DTCs e plano de manejo." },
+  {
+    id: "identificacao",
+    titulo: "Quem e quando",
+    resumo: "Produtor visitado, data e quem visita.",
+  },
+  {
+    id: "documentos",
+    titulo: "Documentos",
+    resumo: "Caderno de campo, notas, DTCs e plano de manejo.",
+  },
   { id: "sementes", titulo: "Sementes e mudas", resumo: "De onde vem o que foi plantado." },
   { id: "insumos", titulo: "Insumos e manejo", resumo: "O que vai na terra e nas plantas." },
   {
@@ -43,7 +45,11 @@ export const ETAPAS: ReadonlyArray<Etapa> = [
     resumo: "Como o produto é guardado e levado.",
   },
   { id: "controle", titulo: "Controle", resumo: "Anotações de custos, colheita e venda." },
-  { id: "fechamento", titulo: "Fechamento", resumo: "O que precisa corrigir e o parecer do grupo." },
+  {
+    id: "fechamento",
+    titulo: "Fechamento",
+    resumo: "O que precisa corrigir e o parecer do grupo.",
+  },
 ];
 
 /** Culturas que pedem comprovação da origem do material plantado. */
@@ -61,7 +67,11 @@ export const OPCOES_PARECER: ReadonlyArray<{ valor: Parecer; rotulo: string; aju
     rotulo: "Conforme com pendências",
     ajuda: "Está de acordo, mas tem coisas para corrigir no prazo.",
   },
-  { valor: "nao_conforme", rotulo: "Não conforme", ajuda: "Tem problema que impede a conformidade." },
+  {
+    valor: "nao_conforme",
+    rotulo: "Não conforme",
+    ajuda: "Tem problema que impede a conformidade.",
+  },
 ];
 
 export type TipoVisita = "pares" | "externo";
@@ -218,14 +228,18 @@ export type Pendencia = { etapa: EtapaId; rotulo: string };
  */
 export function pendencias(visita: Visita): Pendencia[] {
   const lista: Pendencia[] = [];
-  if (!visita.produtor.nome.trim()) lista.push({ etapa: "identificacao", rotulo: "Nome do produtor" });
+  if (!visita.produtor.nome.trim())
+    lista.push({ etapa: "identificacao", rotulo: "Nome do produtor" });
   if (!visita.data) lista.push({ etapa: "identificacao", rotulo: "Data da visita" });
   if (!visita.tipo) lista.push({ etapa: "identificacao", rotulo: "Tipo de visita" });
 
   for (const etapa of ETAPAS) {
     if (etapa.id === "colheita") {
       if (!visita.usoArmazenamento) {
-        lista.push({ etapa: "colheita", rotulo: "Armazém e transporte: exclusivo ou compartilhado" });
+        lista.push({
+          etapa: "colheita",
+          rotulo: "Armazém e transporte: exclusivo ou compartilhado",
+        });
       } else if (visita.usoArmazenamento === "compartilhado" && !visita.separacao.trim()) {
         lista.push({ etapa: "colheita", rotulo: "Como é feita e registrada a separação" });
       }
@@ -287,10 +301,7 @@ export function novaVisita(agora: Date = new Date(), id: string = novoId(agora.g
 
 /** Sem acento e em minúsculas, para comparar nomes de cultura. */
 function simplificar(texto: string): string {
-  return texto
-    .normalize("NFD")
-    .replace(/\p{M}/gu, "")
-    .toLowerCase();
+  return texto.normalize("NFD").replace(/\p{M}/gu, "").toLowerCase();
 }
 
 /** Marca automaticamente as culturas sensíveis citadas na lista do produtor. */

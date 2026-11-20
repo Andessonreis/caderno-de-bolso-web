@@ -44,9 +44,7 @@ describe("encodeFicha / decodeFicha", () => {
   it("omite chaves vazias", () => {
     const payload = encodeFicha({ n: "Ana", m: "  ", c: "", cu: [] });
     const json = new TextDecoder().decode(
-      Uint8Array.from(atob(payload.replace(/-/g, "+").replace(/_/g, "/")), (c) =>
-        c.charCodeAt(0),
-      ),
+      Uint8Array.from(atob(payload.replace(/-/g, "+").replace(/_/g, "/")), (c) => c.charCodeAt(0)),
     );
     expect(JSON.parse(json)).toEqual({ v: 1, n: "Ana" });
   });

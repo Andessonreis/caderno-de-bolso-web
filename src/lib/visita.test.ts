@@ -150,9 +150,9 @@ describe("armazenamento local", () => {
     expect(listarVisitas(armazemEmMemoria({ [CHAVE_VISITAS]: "{não é json" }))).toEqual([]);
     expect(listarVisitas(armazemEmMemoria({ [CHAVE_VISITAS]: '{"a":1}' }))).toEqual([]);
     const misturado = JSON.stringify([null, 3, { semId: true }, novaVisita(AGORA, "ok")]);
-    expect(listarVisitas(armazemEmMemoria({ [CHAVE_VISITAS]: misturado })).map((v) => v.id)).toEqual(
-      ["ok"],
-    );
+    expect(
+      listarVisitas(armazemEmMemoria({ [CHAVE_VISITAS]: misturado })).map((v) => v.id),
+    ).toEqual(["ok"]);
   });
 });
 
@@ -180,7 +180,11 @@ describe("arquivo da visita", () => {
       parecer: "talvez",
       data: "ontem",
       culturasSensiveis: ["milho", "trigo"],
-      respostas: { doc_caderno: { r: "sim", obs: 5 }, item_falso: { r: "sim" }, doc_dtc: { r: "?" } },
+      respostas: {
+        doc_caderno: { r: "sim", obs: 5 },
+        item_falso: { r: "sim" },
+        doc_dtc: { r: "?" },
+      },
       naoConformidades: [{ descricao: "x", prazo: "amanhã" }, "lixo"],
     });
     expect(v).not.toBeNull();

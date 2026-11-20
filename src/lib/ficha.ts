@@ -34,8 +34,7 @@ export type Ficha = {
 };
 
 export type ResultadoLeitura =
-  | { ok: true; ficha: Ficha }
-  | { ok: false; motivo: "vazio" | "invalido" | "versao" };
+  { ok: true; ficha: Ficha } | { ok: false; motivo: "vazio" | "invalido" | "versao" };
 
 /** Limites de tamanho de cada campo de texto. */
 export const LIMITES = {
@@ -95,10 +94,7 @@ function base64UrlParaBytes(texto: string): Uint8Array | null {
 /** Remove caracteres de controle, junta espaços repetidos e corta no limite. */
 export function limparTexto(valor: unknown, limite: number): string | undefined {
   if (typeof valor !== "string") return undefined;
-  const limpo = valor
-    .replace(CARACTERES_INVISIVEIS, " ")
-    .replace(/\s+/g, " ")
-    .trim();
+  const limpo = valor.replace(CARACTERES_INVISIVEIS, " ").replace(/\s+/g, " ").trim();
   if (!limpo) return undefined;
   // Array.from respeita caracteres fora do BMP ao cortar.
   const letras = Array.from(limpo);

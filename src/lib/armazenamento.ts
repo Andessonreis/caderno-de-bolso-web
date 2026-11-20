@@ -167,11 +167,7 @@ export function apagarVisita(armazem: Armazem, id: string): Visita[] {
 
 /** Conteúdo do arquivo para levar a visita a outro aparelho. */
 export function visitaParaArquivo(visita: Visita): string {
-  return JSON.stringify(
-    { formato: FORMATO_ARQUIVO, versao: VERSAO_ARQUIVO, visita },
-    null,
-    2,
-  );
+  return JSON.stringify({ formato: FORMATO_ARQUIVO, versao: VERSAO_ARQUIVO, visita }, null, 2);
 }
 
 export type ResultadoArquivo = { ok: true; visita: Visita } | { ok: false; mensagem: string };
