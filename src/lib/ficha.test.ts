@@ -164,7 +164,11 @@ describe("decodeFicha com entrada ruim", () => {
 describe("links", () => {
   it("monta o link e lê de volta pelo hash", () => {
     const link = linkDaFicha("https://exemplo.org/", { n: "Zé" });
-    expect(link.startsWith("https://exemplo.org/ficha#d=")).toBe(true);
+    expect(link.startsWith("https://exemplo.org/ficha/#d=")).toBe(true);
+    const comPrefixo = linkDaFicha("https://usuario.github.io/caderno-de-bolso-web", { n: "Zé" });
+    expect(comPrefixo.startsWith("https://usuario.github.io/caderno-de-bolso-web/ficha/#d=")).toBe(
+      true,
+    );
     const payload = extrairPayload(link);
     expect(decodeFicha(payload)).toEqual({ ok: true, ficha: { v: 1, n: "Zé" } });
   });

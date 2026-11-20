@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
+import { comBase } from "@/lib/caminho";
 
 /**
  * Registra o service worker (public/sw.js) que guarda as páginas no aparelho,
@@ -10,7 +11,7 @@ import { useEffect } from "react";
 export function RegistrarServiceWorker() {
   useEffect(() => {
     if (process.env.NODE_ENV !== "production" || !("serviceWorker" in navigator)) return;
-    navigator.serviceWorker.register("/sw.js", { scope: "/" }).catch(() => {
+    navigator.serviceWorker.register(comBase("/sw.js"), { scope: comBase("/") }).catch(() => {
       // Sem service worker o site continua funcionando, só não abre offline.
     });
   }, []);

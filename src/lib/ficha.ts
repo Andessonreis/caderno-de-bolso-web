@@ -226,9 +226,13 @@ export function extrairPayload(entrada: string): string | null {
   return /^[A-Za-z0-9_-]+$/.test(texto) ? texto : null;
 }
 
-/** Monta o link público da ficha. `base` é a origem do site, sem barra no fim. */
+/**
+ * Monta o link público da ficha. `base` é o endereço do site, com o prefixo
+ * quando houver (ex.: "https://usuario.github.io/caderno-de-bolso-web").
+ * Usa "/ficha/" com barra: é o arquivo que existe em qualquer hospedagem estática.
+ */
 export function linkDaFicha(base: string, ficha: Omit<Ficha, "v">): string {
-  return `${base.replace(/\/+$/, "")}/ficha#d=${encodeFicha(ficha)}`;
+  return `${base.replace(/\/+$/, "")}/ficha/#d=${encodeFicha(ficha)}`;
 }
 
 // ---------------------------------------------------------------------------
