@@ -65,6 +65,19 @@ describe("código do grupo", () => {
     expect(ALFABETO_CODIGO[30]).toBe("9");
   });
 
+  it("sorteia as 31 letras com a mesma frequência", () => {
+    // Os bytes 0 a 239, uma vez cada: cada letra sai 7 ou 8 vezes, nunca mais torto que isso.
+    let proximo = 0;
+    const dezBytes = () => Uint8Array.from({ length: 10 }, () => proximo++);
+    const contagem = new Map<string, number>();
+    for (let i = 0; i < 24; i++) {
+      for (const c of gerarCodigo(dezBytes)) contagem.set(c, (contagem.get(c) ?? 0) + 1);
+    }
+    expect(contagem.size).toBe(31);
+    const vezes = Array.from(contagem.values());
+    expect(Math.max(...vezes) - Math.min(...vezes)).toBeLessThanOrEqual(1);
+  });
+
   it("formata, limpa e confere", () => {
     expect(formatarCodigo("ABCDEFGHJK")).toBe("ABCDE-FGHJK");
     expect(limparCodigo(" abcde-fghjk ")).toBe("ABCDEFGHJK");
@@ -211,10 +224,22 @@ describe("visitas que chegam do aplicativo", () => {
     expect(lerDadosDoGrupo({ visitas: "não é lista" })).toEqual({
       nome: "Grupo sem nome",
       criadoEm: "",
+      total: 0,
       visitas: [],
     });
     expect(lerDadosDoGrupo(null)).toBeNull();
     expect(lerDadosDoGrupo([])).toBeNull();
+  });
+
+  it("lê o total do grupo com tolerância", () => {
+    const visitas = [{ id: "a", recebido_em: "2026-11-02T00:00:00Z", dados: {} }];
+    // Resposta antiga, sem "total": vale o tamanho da lista.
+    expect(lerDadosDoGrupo({ visitas })?.total).toBe(1);
+    expect(lerDadosDoGrupo({ visitas, total: 3000 })?.total).toBe(3000);
+    // Valor estranho ou menor que a lista não vale.
+    for (const total of ["3000", -5, 1.5, null, Number.NaN, 0]) {
+      expect(lerDadosDoGrupo({ visitas, total })?.total).toBe(1);
+    }
   });
 });
 

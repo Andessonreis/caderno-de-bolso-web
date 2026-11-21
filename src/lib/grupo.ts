@@ -176,6 +176,8 @@ export type VisitaRecebida = {
 export type DadosDoGrupo = {
   nome: string;
   criadoEm: string;
+  /** Visitas do grupo no servidor. Pode passar de `visitas.length`, que vem cortada. */
+  total: number;
   visitas: VisitaRecebida[];
 };
 
@@ -226,9 +228,15 @@ export function lerDadosDoGrupo(resposta: unknown): DadosDoGrupo | null {
     visitas.push(v);
   }
   visitas.sort((a, b) => b.recebidaEm.localeCompare(a.recebidaEm));
+  // Respostas antigas não trazem "total": vale o tamanho da lista.
+  const total =
+    typeof o.total === "number" && Number.isSafeInteger(o.total) && o.total > visitas.length
+      ? o.total
+      : visitas.length;
   return {
     nome: limparTexto(o.nome, LIMITE_NOME_GRUPO) ?? "Grupo sem nome",
     criadoEm: instante(o.criado_em),
+    total,
     visitas,
   };
 }

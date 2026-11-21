@@ -33,6 +33,10 @@ describe("erros do servidor", () => {
     );
     expect(classificarErro(400, { code: "22023", message: "nome_invalido" })).toBe("recusado");
     expect(classificarErro(500, null)).toBe("servidor");
+    expect(classificarErro(400, { code: "54000", message: "muitos_grupos_agora" })).toBe(
+      "muitosGrupos",
+    );
+    expect(classificarErro(429, { message: "muitos_grupos_agora" })).toBe("muitosGrupos");
     expect(classificarErro(401, "x")).toBe("naoConfere");
   });
 });
@@ -66,6 +70,18 @@ describe("criar grupo", () => {
     expect(s.corpo(0).p_codigo).not.toBe(s.corpo(1).p_codigo);
     // A chave é a mesma: só o código muda.
     expect(s.corpo(0).p_chave).toBe(s.corpo(1).p_chave);
+  });
+
+  it("avisa do limite de grupos e não tenta de novo", async () => {
+    const s = servidorFalso([
+      { status: 400, corpo: { code: "54000", message: "muitos_grupos_agora" } },
+      { status: 200, corpo: GRUPO },
+    ]);
+    expect(await criarGrupo("Grupo", config(s.falso))).toEqual({
+      ok: false,
+      problema: "muitosGrupos",
+    });
+    expect(s.chamadas).toHaveLength(1);
   });
 
   it("não chama o servidor com nome vazio e avisa quando cai a internet", async () => {
@@ -103,6 +119,22 @@ describe("listar e apagar", () => {
     const r = await listarGrupo({ grupo: GRUPO, chave: CHAVE }, config(s.falso));
     expect(r.ok && r.valor.visitas.map((v) => v.id)).toEqual(["r1"]);
     expect(s.corpo(0)).toEqual({ p_grupo: GRUPO, p_chave: CHAVE });
+  });
+
+  it("lê o total quando o servidor corta a lista", async () => {
+    const s = servidorFalso([
+      {
+        status: 200,
+        corpo: {
+          nome: "G",
+          criado_em: "2026-11-01T00:00:00Z",
+          total: 2500,
+          visitas: [{ id: "r1", recebido_em: "2026-11-02T00:00:00Z", dados: {} }],
+        },
+      },
+    ]);
+    const r = await listarGrupo({ grupo: GRUPO, chave: CHAVE }, config(s.falso));
+    expect(r.ok && r.valor.total).toBe(2500);
   });
 
   it("diz quando a chave não confere", async () => {

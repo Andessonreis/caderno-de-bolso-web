@@ -38,6 +38,8 @@ export type Problema =
   | "naoConfere"
   /** O servidor recusou o que foi mandado (nome, por exemplo). */
   | "recusado"
+  /** Muitos grupos criados na última hora (limite global do servidor). */
+  | "muitosGrupos"
   /** Qualquer outra falha do servidor. */
   | "servidor";
 
@@ -48,6 +50,7 @@ type Configuracao = { fetch?: typeof fetch; url?: string; chavePublica?: string 
 /** Lê o erro devolvido pelo servidor: {"code": "...", "message": "..."}. */
 export function classificarErro(status: number, corpo: unknown): Problema {
   const o = typeof corpo === "object" && corpo !== null ? (corpo as Record<string, unknown>) : {};
+  if (o.code === "54000" || o.message === "muitos_grupos_agora") return "muitosGrupos";
   if (o.code === "28000" || o.message === "chave_nao_confere") return "naoConfere";
   if (status === 401 || status === 403) return "naoConfere";
   if (status >= 400 && status < 500) return "recusado";
