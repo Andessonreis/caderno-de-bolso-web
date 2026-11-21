@@ -5,9 +5,10 @@ a partir do código do site. Se algum detalhe divergir, vale o que está no cód
 
 Em todas as páginas há, no topo, a marca **Caderno de Bolso** (leva à página inicial) e dois
 atalhos: **Ficha** (leva a `/ficha/`) e **Visita** (leva a `/visita/`). O atalho da página em que
-você está fica destacado. No rodapé há três links: **Início**, **Fazer uma ficha** e **Roteiro de
-visita**, e um lembrete de que não há cadastro e que o que se escreve fica só no aparelho. Quem
-navega pelo teclado tem, logo no começo, o link **Pular para o conteúdo**.
+você está fica destacado. No rodapé há quatro links: **Início**, **Fazer uma ficha**, **Roteiro de
+visita** e **Para a coordenação do grupo**, e um lembrete de que não há cadastro, que o que se
+escreve fica só no aparelho e que só as visitas enviadas ao grupo pelo aplicativo ficam num
+servidor. Quem navega pelo teclado tem, logo no começo, o link **Pular para o conteúdo**.
 
 ## Mapa de navegação
 
@@ -18,6 +19,12 @@ flowchart TD
     I -->|Abrir roteiro de visita| VL["/visita/<br>Lista de visitas"]
     I -->|Fazer uma ficha agora| C["/ficha/criar/<br>Fazer uma ficha"]
     I -.->|Conhecer o aplicativo| APP([Repositório do aplicativo])
+    I -->|Reunir as visitas do grupo| GC["/grupo/<br>Criar um grupo"]
+    GC -->|Criar o grupo| GR[Código do grupo<br>e link da coordenação]
+    GR -->|Abrir a página do grupo| GP["/grupo/#g=...&k=...<br>Visitas do grupo"]
+    GP -->|Toque no nome| GV[Visita completa]
+    GV -->|Voltar para a lista| GP
+    GP -->|Apagar este grupo| GC
     F0["/ficha/<br>sem código"] -->|Ver ficha de exemplo| F
     F0 -->|Fazer uma ficha| C
     FE["/ficha/ com código ruim<br>Não conseguimos ler"] -->|Ver ficha de exemplo| F
@@ -90,8 +97,9 @@ município, selo e QR. Logo abaixo vêm três blocos curtos: **Anote na roça, s
 limpo mais rápido** e **Mostre de onde vem**. Depois, **Como funciona**, em três passos numerados
 (anote enquanto trabalha; gere a ficha e o QR; o comprador confere), e **Para quem é** (agricultor e
 agricultora; grupo e cooperativa; quem compra na feira). Em seguida, um quadro conta que existe o
-aplicativo para celular e, por fim, um aviso de que é um projeto acadêmico, sem cadastro, e que os
-dados ficam no aparelho.
+aplicativo para celular, outro quadro **Para a coordenação do grupo** e, por fim, um aviso de que é
+um projeto acadêmico, sem cadastro, e que os dados ficam no aparelho, com exceção das visitas que um
+membro escolhe enviar ao grupo.
 
 **Ações:**
 
@@ -99,6 +107,7 @@ dados ficam no aparelho.
   Canarana-BA).
 - Tocando em **Abrir roteiro de visita**, vai para a lista de visitas.
 - Tocando em **Fazer uma ficha agora**, vai para o formulário de ficha.
+- Tocando em **Reunir as visitas do grupo**, vai para a página do grupo.
 - Tocando em **Conhecer o aplicativo**, abre o repositório do aplicativo. Esse botão só aparece
   quando o endereço do repositório foi configurado na publicação.
 
@@ -416,6 +425,99 @@ que o site foi aberto uma vez.
 
 ---
 
+## Visitas do grupo (`/grupo/`)
+
+Para a coordenação de um núcleo, associação ou cooperativa. Os produtores fazem a visita de pares
+no aplicativo e enviam ao grupo; aqui a coordenação vê todas num lugar só. O grupo tem dois
+segredos: o **código do grupo**, curto, que os membros digitam no aplicativo para enviar, e o
+**link da coordenação**, que é o único jeito de ver as visitas. Não há login.
+
+**De onde se chega:** pelo botão **Reunir as visitas do grupo** da página inicial, pelo link **Para a
+coordenação do grupo** do rodapé ou abrindo o link da coordenação.
+
+### Criar um grupo
+
+**O que aparece:** "Para a coordenação do grupo", o título "Reunir as visitas do grupo", uma
+explicação curta e **Como funciona**, em três passos (você cria o grupo e recebe o código e o link;
+cada membro digita o código no aplicativo e escolhe quais visitas enviar; pelo link você vê as que
+chegaram). Abaixo, o quadro **Criar um grupo**, com o campo **Nome do grupo** e o botão **Criar o
+grupo**. Se este aparelho lembra de um grupo, aparece antes o quadro **Grupo lembrado neste
+aparelho**, com **Abrir as visitas deste grupo**. No pé da página, um texto sobre os dados.
+
+**Ações e mensagens:**
+
+- Nome vazio: "Escreva o nome do grupo para continuar."
+- Tocando em **Criar o grupo**, o botão vira "Criando o grupo…". Sem internet: "Sem internet agora.
+  Para criar o grupo é preciso estar conectado. Tente de novo." Falha do servidor: "O servidor teve
+  um problema e o grupo não foi criado. Tente de novo daqui a pouco."
+
+### Grupo criado
+
+**O que aparece:** "Grupo criado", o nome do grupo e "Guarde as duas coisas abaixo agora. Elas não
+aparecem de novo." Depois, duas partes:
+
+1. **Código do grupo, para os membros.** Um cartão com "Código do grupo", o nome do grupo, o código
+   em letras grandes no formato `XXXXX-XXXXX`, um QR e duas frases dizendo o que o membro faz no
+   aplicativo (aba Visita, Visitar outra roça, Grupo, digitar o código). O código não usa as letras
+   I, L e O nem os números 0 e 1, para não confundir. Botões **Copiar código** e **Imprimir cartão
+   do código** (a impressão sai só com o cartão, sem o link da coordenação).
+2. **Link da coordenação, só para você.** Um aviso em destaque: "Quem tiver este link vê todas as
+   visitas do grupo. Guarde num lugar seguro e não compartilhe. Se perder, não há como recuperar."
+   O link aparece num campo de texto, com **Copiar link** e **Abrir a página do grupo**. Por último,
+   a caixa **Lembrar neste aparelho**: marcada, a página do grupo abre sozinha neste aparelho, e o
+   código continua aparecendo nela. O texto pede para marcar só se o aparelho for seu.
+
+### Visitas do grupo (`/grupo/#g=...&k=...`)
+
+**O que aparece:** "Visitas do grupo", o nome do grupo, quantas visitas foram reunidas e quando
+chegou a última. Os botões **Atualizar** e **Baixar planilha (CSV)**. Enquanto carrega, "Carregando
+as visitas do grupo…".
+
+- **Resumo:** quadros com o total de visitas, os produtores visitados e quantas visitas têm parecer
+  Conforme, Com pendências, Não conforme e Sem parecer. Abaixo, a tabela **Perguntas com mais
+  respostas Não e Em parte**, com as contagens e uma barra para cada pergunta.
+- **Visitas recebidas:** o filtro **Parecer**, a busca **Buscar pelo nome do produtor** (não liga
+  para acento) e "Mostrando N de M visitas". A tabela tem produtor visitado, município, data da
+  visita, quem visitou, tipo, parecer, respondidas ("N de M") e recebida em. No celular, ela rola
+  de lado.
+- **Código do grupo**, quando o grupo foi criado e lembrado neste aparelho, com **Copiar código**.
+- **Neste aparelho:** a caixa **Lembrar neste aparelho**, **Copiar link da coordenação** e **Criar
+  outro grupo**.
+- **Apagar este grupo.**
+- O texto sobre os dados: as visitas foram enviadas por membros que digitaram o código e
+  concordaram em enviar, trazem o nome do produtor visitado, e a página não guarda as visitas no
+  aparelho.
+
+**Ações:**
+
+- Tocando no nome de um produtor, abre a visita inteira, só para leitura, na mesma folha que o
+  roteiro imprime, com "Recebida em" e a data. **Imprimir / Salvar em PDF** imprime a folha, com
+  as linhas de assinatura. **Voltar para a lista** volta para a tabela.
+- **Baixar planilha (CSV)** salva um arquivo como `visitas-nucleo-boa-vista-2026-11-20.csv`, que
+  abre no Excel com os acentos certos: uma linha por visita, as colunas da tabela, as contagens de
+  Não, de Em parte e de não conformidades anotadas e uma coluna por pergunta.
+- **Apagar este grupo** pergunta antes: "Apagar o grupo X e as N visitas reunidas? Tudo some do
+  servidor para sempre, não dá para desfazer, e o código deixa de funcionar no aplicativo dos
+  membros." Tocando em **Sim, apagar tudo**, volta para a criação de grupo com "O grupo X foi
+  apagado, com todas as visitas reunidas." **Cancelar** desfaz a pergunta.
+
+**Mensagens:**
+
+- Grupo sem visitas: "Nenhuma visita chegou ainda", com o caminho no aplicativo para o membro
+  enviar.
+- Link incompleto ou alterado: "Não conseguimos ler este link", com o botão para voltar ao começo
+  da página do grupo.
+- Link que não abre grupo (chave errada ou grupo apagado): "Este link não abre nenhum grupo.", com
+  **Criar um grupo** e, se o aparelho lembrava dele, **Esquecer este grupo neste aparelho**.
+- Falha do servidor: "O servidor teve um problema. Tente atualizar daqui a pouco."
+
+**Sem internet:** a página abre, porque fica guardada no aparelho como as outras, mas as visitas
+não: aparece "Sem internet agora. Confira a conexão e toque em Atualizar." Se a lista já tinha sido
+carregada antes, ela continua na tela com "Mostrando o que foi carregado às HH:MM. Esta cópia fica
+só nesta página e some ao fechar."
+
+---
+
 ## Página não encontrada
 
 <p>
@@ -441,4 +543,5 @@ visitas.
 | Fazer uma ficha           | **Provar a cada venda que é orgânico:** gera o QR e o cartão da banca mesmo para quem não usa o aplicativo, inclusive pela cooperativa.                                                                      |
 | Roteiro de apoio à visita | **Visita que toma o dia inteiro (hipótese, citada por um produtor):** respostas com um toque, perguntas que só aparecem quando fazem sentido, dados da ficha sem digitar e folha pronta para assinar no fim. |
 | Roteiro de apoio à visita | **Estar pronto para a visita:** o produtor e o grupo podem percorrer o mesmo roteiro antes da visita e ver, no resumo, o que ainda falta acertar.                                                            |
+| Visitas do grupo          | **A visita de pares é longa:** as visitas feitas no aplicativo chegam prontas à coordenação, com resumo, folha para imprimir e planilha, sem passar a limpo de novo.                                         |
 | Página inicial            | Explica o projeto ao produtor, à cooperativa e a quem avalia, e leva às ferramentas e à ficha de exemplo.                                                                                                    |

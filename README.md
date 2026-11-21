@@ -3,8 +3,8 @@
 **O comprador confere sozinho de onde vem o alimento, e a visita de pares ganha um roteiro de apoio no celular.**
 
 Site do Caderno de Bolso, um complemento digital do caderno de campo para agricultores familiares
-agroecológicos com certificação participativa (SPG) no Território de Irecê, Bahia. Ele atende duas
-pessoas: quem compra na feira e quem faz a visita de pares.
+agroecológicos com certificação participativa (SPG) no Território de Irecê, Bahia. Ele atende quem
+compra na feira, quem faz a visita de pares e a coordenação do grupo.
 
 - Site publicado: https://andessonreis.github.io/caderno-de-bolso-web/
 - Aplicativo de celular (anotações na roça, sem internet): https://github.com/Andessonreis/caderno-de-bolso-mobile
@@ -57,6 +57,14 @@ de um aparelho para outro. Depois de aberto uma vez, o roteiro funciona sem inte
 apoio baseado no Roteiro de Visita da OPAC e cobre só parte dele (documentos, sementes, insumos,
 colheita e controle). Não substitui o formulário oficial, e o uso em visitas reais depende de acordo
 com o grupo e a OPAC.
+
+**Visitas do grupo (`/grupo`).** Para a coordenação de um núcleo, associação ou cooperativa. A
+coordenação cria o grupo com um nome e recebe duas coisas: o código do grupo, num cartão com QR
+para imprimir e entregar aos membros, e o link da coordenação, só dela. Cada membro digita o código
+no aplicativo e escolhe quais visitas enviar. Pelo link, a coordenação vê todas num lugar só: um
+resumo (total, pareceres, produtores visitados e as perguntas com mais "Não" e "Em parte"), a
+lista com filtro por parecer e busca pelo nome, cada visita completa na folha de impressão e uma
+planilha CSV para o Excel. O grupo pode ser apagado, com tudo o que foi reunido.
 
 <!-- telas:inicio -->
 
@@ -161,6 +169,16 @@ no aparelho estragarem, uma cópia do conteúdo cru é preservada antes de qualq
 Ao abrir o arquivo de uma visita que já existe, o site compara as datas e pergunta antes de trocar
 uma cópia mais nova.
 
+**Grupo com dois segredos, sem login.** O código do grupo (10 letras) só serve para enviar
+visitas; a chave da coordenação (32 bytes aleatórios) só serve para ler. Os dois são gerados no
+navegador com `crypto.getRandomValues`, e o servidor guarda apenas o sha256 de cada um, nunca o
+código ou a chave em si. A chave vai no link da coordenação depois do `#` (`/grupo/#g=<id>&k=<chave>`), parte do endereço que o navegador não manda
+para o servidor do site, e só sai do aparelho no corpo da chamada ao servidor do grupo. O membro que
+envia não consegue ler as visitas dos outros, e quem lê não precisa de conta. As chamadas são três
+funções do banco expostas por HTTP (`src/lib/servidorGrupo.ts`), feitas com `fetch` e a chave
+pública do projeto. As visitas recebidas passam pela mesma leitura defensiva dos arquivos de visita,
+e a planilha protege contra fórmulas (célula que começa com `=`, `+`, `-` ou `@` ganha um apóstrofo).
+
 **Exportação estática.** O Next.js gera HTML, CSS e JavaScript prontos (`output: "export"`), que
 qualquer hospedagem estática serve. O site pode morar na raiz do domínio ou num subcaminho
 (`NEXT_PUBLIC_BASE_PATH`), como no GitHub Pages. Fontes são servidas pelo próprio site, sem CDN
@@ -202,6 +220,7 @@ src/
     ficha/                 ficha do produtor (leitura do QR)
       criar/               gerador de ficha, QR e cartão A6
     visita/                roteiro de apoio à visita: lista, etapas, resumo e folha de impressão
+    grupo/                 visitas do grupo: criar o grupo, código, link da coordenação e painel
     manifest.ts            manifesto do app instalável
     not-found.tsx          página 404
   components/              cabeçalho, rodapé, ícones, botão de copiar, contador
@@ -209,6 +228,8 @@ src/
     ficha.ts               contrato da ficha: codificar, ler com segurança, datas
     visita.ts              perguntas do roteiro como dados, progresso e pendências
     armazenamento.ts       visitas no aparelho, arquivo de exportação, reserva de dados estragados
+    grupo.ts               código, chave, link da coordenação, visitas recebidas, resumo e planilha
+    servidorGrupo.ts       chamadas ao servidor do grupo
     caminho.ts             prefixo do site (base path)
     *.test.ts              testes
 public/
@@ -259,6 +280,8 @@ Use HTTPS para o modo sem internet ser ativado.
 | `NEXT_PUBLIC_BASE_PATH`       | Prefixo quando o site fica num subcaminho, como `/caderno-de-bolso-web`.            |
 | `NEXT_PUBLIC_MOBILE_REPO_URL` | Repositório do aplicativo, exibido na página inicial. Sem ela, o botão não aparece. |
 | `NEXT_PUBLIC_SITE_URL`        | Endereço público, usado como base dos metadados de compartilhamento.                |
+| `NEXT_PUBLIC_SUPABASE_URL`    | Servidor do grupo. Tem valor padrão no código; veja `.env.example`.                 |
+| `NEXT_PUBLIC_SUPABASE_KEY`    | Chave pública (publishable) do servidor do grupo. Também tem valor padrão.          |
 
 ## Roadmap
 
