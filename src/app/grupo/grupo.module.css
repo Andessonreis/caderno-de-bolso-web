@@ -1,0 +1,366 @@
+.pagina {
+  max-width: 44rem;
+  padding-block: var(--e-5) var(--e-7);
+}
+
+.paginaLarga {
+  max-width: var(--largura-pagina);
+}
+
+.topo {
+  margin-bottom: var(--e-5);
+}
+
+.semContorno:focus {
+  outline: none;
+}
+
+.chamada {
+  font-size: var(--texto-grande);
+  overflow-wrap: anywhere;
+}
+
+.subtitulo {
+  font-size: var(--titulo-3);
+}
+
+.bloco {
+  margin-top: var(--e-6);
+}
+
+.depois {
+  margin-top: var(--e-3);
+}
+
+.passos {
+  display: grid;
+  gap: var(--e-2);
+  margin: 0;
+  padding-left: var(--e-5);
+}
+
+.carregando {
+  color: var(--tinta-suave);
+}
+
+.msgOk,
+.msgErro {
+  margin: var(--e-3) 0;
+  padding: var(--e-3) var(--e-4);
+  border-radius: var(--raio);
+  font-weight: 700;
+}
+
+.msgOk {
+  background: var(--folha-clara);
+  color: var(--folha-escura);
+}
+
+.msgErro {
+  background: var(--perigo-claro);
+  color: var(--perigo);
+}
+
+/* ------------------------------------------------------------ Código e link */
+
+.cartaoCodigo {
+  max-width: 22rem;
+  margin: var(--e-4) auto 0;
+  padding: var(--e-5);
+  background: var(--papel-cartao);
+  border: 2px solid var(--tinta);
+  border-radius: var(--raio-grande);
+  text-align: center;
+  break-inside: avoid;
+}
+
+.cartaoTitulo {
+  margin: 0;
+  font-size: var(--texto-pequeno);
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--barro);
+}
+
+.cartaoGrupo {
+  margin: var(--e-1) 0 var(--e-3);
+  font-family: var(--fonte-titulo);
+  font-weight: 800;
+  font-size: var(--titulo-3);
+  line-height: 1.2;
+  overflow-wrap: anywhere;
+}
+
+.codigo,
+.codigoMenor {
+  margin: 0 0 var(--e-3);
+  font-family: ui-monospace, "Cascadia Mono", "DejaVu Sans Mono", monospace;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  white-space: nowrap;
+}
+
+.codigo {
+  font-size: clamp(1.75rem, 1.2rem + 3vw, 2.5rem);
+}
+
+.codigoMenor {
+  font-size: 1.5rem;
+}
+
+.cartaoQr,
+.cartaoQrVazio {
+  display: block;
+  width: 11rem;
+  height: 11rem;
+  margin: 0 auto var(--e-3);
+}
+
+.cartaoTexto {
+  margin: 0;
+  font-size: var(--texto-pequeno);
+  text-align: left;
+}
+
+.alerta {
+  margin-bottom: var(--e-4);
+}
+
+.campoLink {
+  margin-top: var(--e-2);
+  font-family: ui-monospace, "Cascadia Mono", "DejaVu Sans Mono", monospace;
+  font-size: max(16px, var(--texto-pequeno));
+  overflow-wrap: anywhere;
+  word-break: break-all;
+}
+
+.lembrar {
+  display: flex;
+  gap: var(--e-3);
+  align-items: flex-start;
+  margin-top: var(--e-5);
+}
+
+.caixa {
+  flex: none;
+  width: 1.75rem;
+  height: 1.75rem;
+  margin: 0.4rem;
+  accent-color: var(--folha);
+}
+
+.lembrar .rotulo {
+  display: inline-flex;
+  align-items: center;
+  min-height: 2.75rem;
+}
+
+.privacidade {
+  padding-top: var(--e-4);
+  border-top: 1px solid var(--linha);
+  color: var(--tinta-suave);
+  font-size: var(--texto-pequeno);
+}
+
+/* ------------------------------------------------------------ Resumo */
+
+.numeros {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(9.5rem, 1fr));
+  gap: var(--e-3);
+  margin: 0 0 var(--e-5);
+}
+
+.numeros > div {
+  padding: var(--e-3) var(--e-4);
+  background: var(--papel-cartao);
+  border: 1px solid var(--linha);
+  border-radius: var(--raio);
+}
+
+.numeros dt {
+  color: var(--tinta-suave);
+  font-size: var(--texto-pequeno);
+}
+
+.numeros dd {
+  margin: 0;
+  font-family: var(--fonte-titulo);
+  font-weight: 800;
+  font-size: 1.75rem;
+  line-height: 1.2;
+}
+
+.barraFundo {
+  display: flex;
+  height: 0.5rem;
+  margin-top: var(--e-2);
+  border-radius: 999px;
+  background: var(--papel-fundo);
+  overflow: hidden;
+}
+
+.barraNao {
+  background: var(--perigo);
+}
+
+.barraParte {
+  background: var(--barro);
+  opacity: 0.6;
+}
+
+/* ------------------------------------------------------------ Tabelas */
+
+.rolagem {
+  overflow-x: auto;
+  border: 1px solid var(--linha);
+  border-radius: var(--raio);
+  background: var(--papel-cartao);
+}
+
+.tabela {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.tabela caption {
+  padding: var(--e-3) var(--e-4);
+  text-align: left;
+  font-weight: 700;
+  caption-side: top;
+}
+
+.tabela th,
+.tabela td {
+  padding: var(--e-2) var(--e-3);
+  border-top: 1px solid var(--linha);
+  text-align: left;
+  vertical-align: top;
+}
+
+.tabela thead th {
+  background: var(--papel-fundo);
+  font-size: var(--texto-pequeno);
+  white-space: nowrap;
+}
+
+.tabelaVisitas {
+  min-width: 56rem;
+}
+
+/* A legenda fica parada enquanto a tabela larga rola de lado. */
+.legendaFixa {
+  position: sticky;
+  left: var(--e-4);
+  display: inline-block;
+  max-width: calc(100vw - 5rem);
+}
+
+.tabelaVisitas tbody th {
+  font-weight: 400;
+}
+
+.numero {
+  text-align: right;
+  white-space: nowrap;
+}
+
+.tabela .numero {
+  text-align: right;
+}
+
+.botaoNome {
+  min-height: 2.75rem;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--folha);
+  font-weight: 700;
+  text-align: left;
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 3px;
+  cursor: pointer;
+  overflow-wrap: anywhere;
+}
+
+.botaoNome:hover {
+  color: var(--folha-escura);
+}
+
+.filtros {
+  display: grid;
+  gap: 0 var(--e-4);
+}
+
+.filtros :global(.campo) {
+  margin-bottom: var(--e-3);
+}
+
+.vazio {
+  padding: var(--e-5);
+  border: 2px dashed var(--linha-forte);
+  border-radius: var(--raio-grande);
+  color: var(--tinta-suave);
+}
+
+.vazio > :last-child {
+  margin-bottom: 0;
+}
+
+/* ------------------------------------------------------------ Visita aberta e apagar */
+
+.barra {
+  margin-bottom: var(--e-4);
+}
+
+.visitaAberta {
+  margin: 0 0 var(--e-2);
+  font-family: var(--fonte-titulo);
+  font-weight: 700;
+  font-size: var(--titulo-3);
+}
+
+.visitaAberta:focus {
+  outline: none;
+}
+
+.confirmar {
+  padding: var(--e-4);
+  border-radius: var(--raio);
+  background: var(--perigo-claro);
+}
+
+.confirmar > p {
+  font-weight: 700;
+}
+
+@media (min-width: 40rem) {
+  .filtros {
+    grid-template-columns: 1fr 2fr;
+  }
+}
+
+@media print {
+  .pagina {
+    max-width: none;
+    padding: 0;
+  }
+  .rolagem {
+    overflow: visible;
+    border: 0;
+  }
+  .tabelaVisitas {
+    min-width: 0;
+    font-size: 9pt;
+  }
+  .botaoNome {
+    min-height: 0;
+    color: inherit;
+    text-decoration: none;
+  }
+  .cartaoCodigo {
+    margin-top: 0;
+  }
+}
