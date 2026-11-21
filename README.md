@@ -178,6 +178,8 @@ envia não consegue ler as visitas dos outros, e quem lê não precisa de conta.
 funções do banco expostas por HTTP (`src/lib/servidorGrupo.ts`), feitas com `fetch` e a chave
 pública do projeto. As visitas recebidas passam pela mesma leitura defensiva dos arquivos de visita,
 e a planilha protege contra fórmulas (célula que começa com `=`, `+`, `-` ou `@` ganha um apóstrofo).
+Quem tem o código do grupo pode enviar visitas, então ele só deve ir para os membros. O servidor
+limita o grupo a 5000 visitas; a lista mostra as 2000 mais recentes, com o total indicado.
 
 **Exportação estática.** O Next.js gera HTML, CSS e JavaScript prontos (`output: "export"`), que
 qualquer hospedagem estática serve. O site pode morar na raiz do domínio ou num subcaminho

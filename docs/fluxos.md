@@ -430,7 +430,9 @@ que o site foi aberto uma vez.
 Para a coordenação de um núcleo, associação ou cooperativa. Os produtores fazem a visita de pares
 no aplicativo e enviam ao grupo; aqui a coordenação vê todas num lugar só. O grupo tem dois
 segredos: o **código do grupo**, curto, que os membros digitam no aplicativo para enviar, e o
-**link da coordenação**, que é o único jeito de ver as visitas. Não há login.
+**link da coordenação**, que é o único jeito de ver as visitas. Não há login. Quem tem o código
+pode enviar visitas, então ele só deve ir para os membros. O servidor limita o grupo a 5000
+visitas; a lista mostra as 2000 mais recentes e indica o total.
 
 **De onde se chega:** pelo botão **Reunir as visitas do grupo** da página inicial, pelo link **Para a
 coordenação do grupo** do rodapé ou abrindo o link da coordenação.
@@ -449,7 +451,9 @@ aparelho**, com **Abrir as visitas deste grupo**. No pé da página, um texto so
 - Nome vazio: "Escreva o nome do grupo para continuar."
 - Tocando em **Criar o grupo**, o botão vira "Criando o grupo…". Sem internet: "Sem internet agora.
   Para criar o grupo é preciso estar conectado. Tente de novo." Falha do servidor: "O servidor teve
-  um problema e o grupo não foi criado. Tente de novo daqui a pouco."
+  um problema e o grupo não foi criado. Tente de novo daqui a pouco." Se muitos grupos foram criados
+  na última hora: "Muitos grupos foram criados agora há pouco. Espere alguns minutos e tente de
+  novo." (não tenta sozinho de novo).
 
 ### Grupo criado
 
@@ -473,7 +477,9 @@ aparecem de novo." Depois, duas partes:
 chegou a última. Os botões **Atualizar** e **Baixar planilha (CSV)**. Enquanto carrega, "Carregando
 as visitas do grupo…".
 
-- **Resumo:** quadros com o total de visitas, os produtores visitados e quantas visitas têm parecer
+- **Aviso de lista cortada:** quando o grupo tem mais visitas do que a lista traz, aparece "Este
+  grupo tem N visitas. A lista mostra as 2000 mais recentes.", e a contagem do topo usa o total.
+- **Resumo:** (vale para as visitas mostradas) quadros com o total de visitas, os produtores visitados e quantas visitas têm parecer
   Conforme, Com pendências, Não conforme e Sem parecer. Abaixo, a tabela **Perguntas com mais
   respostas Não e Em parte**, com as contagens e uma barra para cada pergunta.
 - **Visitas recebidas:** o filtro **Parecer**, a busca **Buscar pelo nome do produtor** (não liga
