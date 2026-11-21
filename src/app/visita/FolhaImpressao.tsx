@@ -4,12 +4,18 @@ import estilos from "./impressao.module.css";
 
 const VAZIO = "________________";
 
-/** Folha limpa para imprimir ou salvar em PDF. Só aparece na impressão. */
-export function FolhaImpressao({ visita }: { visita: Visita }) {
+/**
+ * Folha limpa para imprimir ou salvar em PDF. Só aparece na impressão, a não
+ * ser com `naTela` (leitura de uma visita recebida pelo grupo).
+ */
+export function FolhaImpressao({ visita, naTela = false }: { visita: Visita; naTela?: boolean }) {
   const parecer = OPCOES_PARECER.find((o) => o.valor === visita.parecer);
 
   return (
-    <article className={`so-impressao ${estilos.folha}`} aria-hidden="true">
+    <article
+      className={naTela ? `${estilos.folha} ${estilos.naTela}` : `so-impressao ${estilos.folha}`}
+      aria-hidden={naTela ? undefined : true}
+    >
       <header className={estilos.cabecalho}>
         <h1 className={estilos.titulo}>Roteiro de apoio à visita</h1>
         <p className={estilos.subtitulo}>

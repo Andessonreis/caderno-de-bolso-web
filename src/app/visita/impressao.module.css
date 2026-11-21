@@ -118,3 +118,20 @@
   border-top: 0.75pt solid #000;
   margin-bottom: 1.5mm;
 }
+
+/* A mesma folha lida na tela (área do grupo): rola de lado se não couber. */
+.naTela {
+  overflow-x: auto;
+  padding: var(--e-4);
+  background: #fff;
+  border: 1px solid var(--linha);
+  border-radius: var(--raio);
+}
+
+@media print {
+  .naTela {
+    overflow: visible;
+    padding: 0;
+    border: 0;
+  }
+}
