@@ -5,6 +5,7 @@ import { BotaoCopiar } from "@/components/BotaoCopiar";
 import { Icone } from "@/components/Icone";
 import { dataPorExtenso } from "@/lib/ficha";
 import {
+  LIMITE_VISITAS_GRUPO,
   ROTULO_TIPO,
   dataHora,
   filtrarVisitas,
@@ -31,6 +32,7 @@ const PROBLEMA_AO_CARREGAR: Record<Problema, string> = {
   naoConfere:
     "Este link não abre nenhum grupo. Pode ser que o grupo tenha sido apagado ou que o link tenha sido copiado pela metade.",
   recusado: "Este link não abre nenhum grupo. Confira se ele foi copiado inteiro, até o fim.",
+  muitosGrupos: "O servidor teve um problema. Tente atualizar daqui a pouco.",
   servidor: "O servidor teve um problema. Tente atualizar daqui a pouco.",
 };
 
@@ -38,6 +40,7 @@ const PROBLEMA_AO_APAGAR: Record<Problema, string> = {
   semInternet: "Sem internet agora. Nada foi apagado. Tente de novo quando estiver conectado.",
   naoConfere: "O servidor não reconheceu este link. Nada foi apagado.",
   recusado: "O servidor não reconheceu este link. Nada foi apagado.",
+  muitosGrupos: "O servidor teve um problema. Nada foi apagado. Tente de novo daqui a pouco.",
   servidor: "O servidor teve um problema. Nada foi apagado. Tente de novo daqui a pouco.",
 };
 
@@ -92,7 +95,7 @@ export function PainelGrupo({
     if (r.ok) {
       setDados({ valor: r.valor, em: new Date().toISOString() });
       setProblema(null);
-      const n = r.valor.visitas.length;
+      const n = r.valor.total;
       setAnuncio(`Lista atualizada: ${n} ${n === 1 ? "visita" : "visitas"}.`);
     } else {
       setProblema(r.problema);
@@ -165,9 +168,7 @@ export function PainelGrupo({
         </h1>
         {dados ? (
           <p className={estilos.chamada}>
-            {dados.valor.visitas.length === 1
-              ? "1 visita reunida"
-              : `${dados.valor.visitas.length} visitas reunidas`}
+            {dados.valor.total === 1 ? "1 visita reunida" : `${dados.valor.total} visitas reunidas`}
             {dados.valor.visitas.length
               ? ` · última recebida em ${dataHora(resumirGrupo(dados.valor.visitas).ultimaRecebida)}`
               : ""}
@@ -299,7 +300,7 @@ export function PainelGrupo({
           {dados ? (
             <ApagarGrupo
               nome={dados.valor.nome}
-              total={dados.valor.visitas.length}
+              total={dados.valor.total}
               aoApagar={async () => {
                 const r = await apagarGrupo({ grupo, chave });
                 if (r.ok) aoApagar(dados.valor.nome);
@@ -359,10 +360,17 @@ function Conteudo({
 
   return (
     <>
+      {dados.total > dados.visitas.length ? (
+        <p className="aviso" role="note">
+          Este grupo tem {dados.total} visitas. A lista mostra as {LIMITE_VISITAS_GRUPO} mais
+          recentes.
+        </p>
+      ) : null}
       <section className={estilos.bloco} aria-labelledby="titulo-resumo">
         <h2 id="titulo-resumo" className={estilos.subtitulo}>
           Resumo
         </h2>
+        <p className="ajuda">O resumo vale para as visitas mostradas na lista.</p>
         <dl className={estilos.numeros}>
           <div>
             <dt>Visitas</dt>

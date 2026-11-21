@@ -14,6 +14,8 @@ const ERRO_AO_CRIAR: Record<Problema, string> = {
   semInternet: "Sem internet agora. Para criar o grupo é preciso estar conectado. Tente de novo.",
   recusado: "Escreva o nome do grupo, com até 80 letras.",
   naoConfere: "O servidor não aceitou o pedido. Tente de novo daqui a pouco.",
+  muitosGrupos:
+    "Muitos grupos foram criados agora há pouco. Espere alguns minutos e tente de novo.",
   servidor: "O servidor teve um problema e o grupo não foi criado. Tente de novo daqui a pouco.",
 };
 
