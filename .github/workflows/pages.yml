@@ -21,6 +21,9 @@ jobs:
     env:
       NEXT_PUBLIC_BASE_PATH: /caderno-de-bolso-web
       NEXT_PUBLIC_MOBILE_REPO_URL: https://github.com/Andessonreis/caderno-de-bolso-mobile
+      # Servidor do grupo. A chave é a pública (publishable), feita para ficar no navegador.
+      NEXT_PUBLIC_SUPABASE_URL: https://usnrgytoupqwikgcwwjb.supabase.co
+      NEXT_PUBLIC_SUPABASE_KEY: sb_publishable_2Qv8OPUk-Aj9zHOIxEXwzA_yBvYG5g4
     steps:
       - uses: actions/checkout@v7
 
