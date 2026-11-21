@@ -213,6 +213,31 @@ export default function Inicio() {
 
       <section
         className={`conteiner ${estilos.secao}`}
+        aria-labelledby="titulo-grupo"
+      >
+        <div className={`cartao ${estilos.app}`}>
+          <span className={estilos.blocoIcone}>
+            <Icone nome="pessoas" tamanho={28} />
+          </span>
+          <div>
+            <h2 id="titulo-grupo" className={estilos.appTitulo}>
+              Para a coordenação do grupo
+            </h2>
+            <p>
+              Os produtores fazem as visitas de pares no aplicativo e mandam
+              para o grupo com um código. A coordenação vê todas num lugar só,
+              imprime e baixa em planilha.
+            </p>
+            <Link className="botao botao-secundario" href="/grupo/">
+              <Icone nome="pessoas" />
+              Reunir as visitas do grupo
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      <section
+        className={`conteiner ${estilos.secao}`}
         aria-labelledby="titulo-aviso"
       >
         <div className="aviso">
@@ -225,8 +250,9 @@ export default function Inicio() {
             certificadora nem de órgão público.
           </p>
           <p>
-            Não há cadastro, senha nem servidor guardando seus dados. O que você
-            escreve fica só no aparelho que está usando.
+            Não há cadastro nem senha. O que você escreve fica só no aparelho
+            que está usando. A exceção são as visitas que um membro escolhe
+            enviar ao grupo: essas ficam num servidor, para a coordenação ver.
           </p>
         </div>
       </section>

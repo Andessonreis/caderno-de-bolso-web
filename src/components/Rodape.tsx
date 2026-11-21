@@ -11,7 +11,9 @@ export function Rodape() {
           nenhuma certificadora nem de órgão público.
         </p>
         <p className={estilos.texto}>
-          Não tem cadastro nem senha. O que você escreve aqui fica guardado só neste aparelho.
+          Não tem cadastro nem senha. O que você escreve aqui fica guardado só neste aparelho. As
+          visitas que os membros enviam ao grupo pelo aplicativo ficam num servidor, para a
+          coordenação ver.
         </p>
         <nav aria-label="Rodapé">
           <ul className={estilos.links}>
@@ -23,6 +25,9 @@ export function Rodape() {
             </li>
             <li>
               <Link href="/visita/">Roteiro de visita</Link>
+            </li>
+            <li>
+              <Link href="/grupo/">Para a coordenação do grupo</Link>
             </li>
           </ul>
         </nav>
