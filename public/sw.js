@@ -8,6 +8,9 @@
  * - Páginas: rede primeiro, com tempo limite curto; se a rede falhar ou
  *   demorar, usa a cópia guardada.
  * - Na instalação, baixa as páginas principais e os arquivos que cada uma usa.
+ * - Pedidos a outros domínios (o servidor do grupo) e pedidos que não são GET
+ *   passam direto, sem cache: as visitas de um grupo nunca ficam guardadas
+ *   aqui. Sem internet, a página do grupo abre e mostra o aviso de conexão.
  *
  * O site pode estar num subcaminho (GitHub Pages). O prefixo vem do escopo
  * com que o service worker foi registrado, então este arquivo serve para
@@ -22,7 +25,7 @@ const VERSAO = "__VERSAO_DO_BUILD__";
 const BASE = new URL(self.registration.scope).pathname.replace(/\/$/, "");
 const PREFIXO_CACHE = `caderno-de-bolso:${BASE || "/"}:`;
 const CACHE = `${PREFIXO_CACHE}${VERSAO}`;
-const PAGINAS = ["/", "/visita/", "/ficha/", "/ficha/criar/"].map((p) => BASE + p);
+const PAGINAS = ["/", "/visita/", "/ficha/", "/ficha/criar/", "/grupo/"].map((p) => BASE + p);
 const ESTATICOS = `${BASE}/_next/static/`;
 const TEMPO_LIMITE_MS = 4000;
 
